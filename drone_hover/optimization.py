@@ -1,13 +1,14 @@
+import warnings
 import numpy as np
-from numpy.linalg import inv, pinv, norm
-from scipy.linalg import null_space
+from numpy.linalg import inv, norm
 from scipy.optimize import minimize
 
-G = 9.81
+G = 9.81    # gravitational acceleration
 
 class Hover:
     def __init__(self, drone):
         self.drone = drone
+        self.num_props = len(self.drone.props)
         
         self.drone_checker()
         
@@ -20,14 +21,15 @@ class Hover:
         self.control_bounds = np.array((0.02, 1))
 
         # Compute effectiveness matrices Bf and Bm
-        self.Bf = np.zeros((3, drone.num_props))
-        self.Bm = np.zeros((3, drone.num_props))
+        self.Bf = np.zeros((3, self.num_props))
+        self.Bm = np.zeros((3, self.num_props))
 
         for idx, prop in enumerate(drone.props):
             f_max = prop["force"][0]
             t_max = prop["force"][1]
             prop_loc = np.array(prop["loc"])[np.newaxis,:]
             prop_dir = np.array(prop["dir"])[np.newaxis,:]
+            prop_dir[0,:3] = prop_dir[0,:3]/norm(prop_dir[0,:3])
             
             self.Bf[:,idx] = f_max * prop_dir[0,:3].T
             
@@ -37,18 +39,24 @@ class Hover:
         self.Bf = inv(m) @ self.Bf
         self.Bm = inv(I) @ self.Bm
 
-        self.W = np.eye(drone.num_props)
+        self.W = np.eye(self.num_props)
         
-        self.control_limits = np.ones((drone.num_props, 2))
+        self.control_limits = np.ones((self.num_props, 2))
         self.control_limits[:,0] *= self.control_bounds[0]
         self.control_limits[:,1] *= self.control_bounds[1]
+        
+        
+    def compute_hover(self):
+        self.static()
+        if self.static_success == False:
+            self.spinning()
         
             
     def static(self):
         print("Testing static hover...")
         A = self.Bf.T @ self.Bf
         
-        u0 = np.random.uniform(low=self.control_bounds[0], high=self.control_bounds[1], size=self.drone.num_props)
+        u0 = np.random.uniform(low=self.control_bounds[0], high=self.control_bounds[1], size=self.num_props)
         
         def objective_function(u):
             return u.T @ u
@@ -67,7 +75,10 @@ class Hover:
             bnds.append((self.control_bounds[0], self.control_bounds[1])) 
         opt = {'maxiter':1000}
         
-        static_hover = minimize(objective_function, u0, constraints=cons, bounds=bnds, method='SLSQP', options=opt)
+        with warnings.catch_warnings():
+            warnings.filterwarnings("ignore", message="Values in x were outside bounds")
+            static_hover = minimize(objective_function, u0, constraints=cons, bounds=bnds, method='SLSQP', options=opt)
+            
         self.static_success = static_hover.success
         
         # Checking if no torque configuration can achieve sufficient thrust
@@ -82,7 +93,6 @@ class Hover:
             print(f'Resultant specific torque: {norm(tau)}')
             print(f"Input cost: {input_cost}")
 
-    
         else:
             print("Drone cannot achieve static hover")
 
@@ -92,7 +102,7 @@ class Hover:
         A = self.Bf.T @ self.Bf
         
         # Somehow if values of u are all equal it does not work
-        u0 = np.random.uniform(low=self.control_bounds[0], high=self.control_bounds[1], size=self.drone.num_props)
+        u0 = np.random.uniform(low=self.control_bounds[0], high=self.control_bounds[1], size=self.num_props)
         
         def objective_function(u):
             return u.T @ u
@@ -116,7 +126,10 @@ class Hover:
             bnds.append((self.control_bounds[0], self.control_bounds[1])) 
         opt = {'maxiter':1000}
         
-        spinning_hover = minimize(objective_function, u0, constraints=cons, bounds=bnds, method='SLSQP', options=opt)
+        with warnings.catch_warnings():
+            warnings.filterwarnings("ignore", message="Values in x were outside bounds")
+            spinning_hover = minimize(objective_function, u0, constraints=cons, bounds=bnds, method='SLSQP', options=opt)
+            
         if spinning_hover.success == True:
             print("----------Spinning Hover Achieved----------")
             self.u = spinning_hover.x
@@ -139,6 +152,12 @@ class Hover:
             print(f'Resultant specific torque: {norm(tau)}')
             print(f"Force-torque cross product norm: {norm(np.cross(f,tau))}")
             
+            
     def drone_checker(self):
-        
-        return
+        keys = ["loc", "dir", "force"]
+        for i, prop in enumerate(self.drone.props):
+            for key in keys:
+                if key in prop.keys():
+                    pass
+                else:
+                    raise KeyError(f"\"{key}\" is missing in propeller {i}")

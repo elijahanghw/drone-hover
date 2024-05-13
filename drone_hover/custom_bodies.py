@@ -25,8 +25,7 @@ class Biquadcopter:
                       {"loc":[length*cos(pi), length*sin(pi), 0], "dir": [0, 0, 1, -1], "force": [10, 1]},
                       {"loc":[length*cos(4/3*pi), length*sin(4/3*pi), 0], "dir": [0, 1, 0, -1], "force": [10, 1]},
                       {"loc":[length*cos(5/3*pi), length*sin(5/3*pi), 0], "dir": [0, 1, 0, 1], "force": [10, 1]}]
-        
-        self.num_props = len(self.props)
+ 
         
 class Countercopter:
     def __init__(self):
@@ -47,7 +46,6 @@ class Countercopter:
         self.props = [{"loc":[0, 0, 1], "dir": [0, 0, 1, 1], "force": [10, 1]},
                       {"loc":[0, 0, -1], "dir": [0, 0, -1, 1], "force": [10, 1]}]
         
-        self.num_props = len(self.props)
         
 class Monocopter:
     def __init__(self):
@@ -67,7 +65,6 @@ class Monocopter:
         # force: maximum force and torque (force, torque)
         self.props = [{"loc":[0, 0, 1], "dir": [0, 0, 1, 1], "force": [10, 1]}]
         
-        self.num_props = len(self.props)
         
 class Dualquad:
     def __init__(self):
@@ -93,5 +90,3 @@ class Dualquad:
                       {"loc":[-1, 1, 0], "dir": [0, 0, -1, -1], "force": [10, 1]},
                       {"loc":[-1, -1, 0], "dir": [0, 0, -1, 1], "force": [10, 1]},
                       {"loc":[1, -1, 0], "dir": [0, 0, -1, -1], "force": [10, 1]}]
-        
-        self.num_props = len(self.props)

@@ -1,4 +1,3 @@
-import numpy as np
 from numpy import sin, cos, pi
                 
 # Standard x config quadcopter
@@ -25,7 +24,6 @@ class Quadcopter:
                       {"loc":[length*cos(5/4*pi), length*sin(5/4*pi), 0], "dir": [0, 0, 1, 1], "force": [10, 1]},
                       {"loc":[length*cos(7/4*pi), length*sin(7/4*pi), 0], "dir": [0, 0, 1, -1], "force": [10, 1]}]
         
-        self.num_props = len(self.props)
 
 # Standard tricopter without tilt rotor
 class Tricopter:
@@ -50,8 +48,6 @@ class Tricopter:
         self.props = [{"loc":[length, 0, 0], "dir": [0, 0, 1, 1], "force": [10, 1]},
                       {"loc":[length*cos(2/3*pi), length*sin(2/3*pi), 0], "dir": [0, 0, 1, -1], "force": [10, 1]},
                       {"loc":[length*cos(4/3*pi), length*sin(4/3*pi), 0], "dir": [0, 0, 1, 1], "force": [10, 1]}]
-        
-        self.num_props = len(self.props)
         
 
 # Standard hexacopter  
@@ -81,8 +77,6 @@ class Hexacopter:
                       {"loc":[length*cos(4/3*pi), length*sin(4/3*pi), 0], "dir": [0, 0, 1, 1], "force": [10, 1]},
                       {"loc":[length*cos(5/3*pi), length*sin(5/3*pi), 0], "dir": [0, 0, 1, -1], "force": [10, 1]}]
         
-        self.num_props = len(self.props)
-        
 
 # Standard Octacopter
 class Octacopter:
@@ -111,5 +105,3 @@ class Octacopter:
                       {"loc":[length*cos(5/4*pi), length*sin(5/4*pi), 0], "dir": [0, 0, 1, -1], "force": [10, 1]},
                       {"loc":[length*cos(6/4*pi), length*sin(6/4*pi), 0], "dir": [0, 0, 1, 1], "force": [10, 1]},
                       {"loc":[length*cos(7/4*pi), length*sin(7/4*pi), 0], "dir": [0, 0, 1, -1], "force": [10, 1]}]
-        
-        self.num_props = len(self.props)

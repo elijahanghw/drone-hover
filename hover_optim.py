@@ -6,12 +6,10 @@ from drone_hover.optimization import Hover
 if __name__ == "__main__":
     # Import drone body
     length = 1
-    drone = Dualquad()
+    drone = Quadcopter(length)
 
     # Define hovering optimizer for drone
     sim = Hover(drone)
-
-    sim.static()
-
-    if sim.static_success == False:
-        sim.spinning()
+    
+    # Compute most efficient hover
+    sim.compute_hover()
