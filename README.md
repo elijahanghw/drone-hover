@@ -12,7 +12,7 @@ Propeller properties are defined using dictionaries, and require the following k
 
 `"loc":[x,y,z]`: List that defines the $(x,y,z)$ coordinates of the propeller in body-fixed axis.
 
-`"dir":[x,y,z,r]`: List that defines the direction of thrust and rotation for the propeller. Includes 4 numbers, first 3 numbers are the $(x,y,z)$ coordinates, and the last number $r=1$ for CCW rotation or $r=-1$ for CW rotation (as viewed from the top of the propeller). Direction $(x,y,z)$ does not need to be unit vector as the optimizer will automatically scale it accordingly.
+`"dir":[x,y,z,r]`: List that defines the direction of thrust and rotation for the propeller. Includes 4 numbers, first 3 numbers are the $(x,y,z)$ vector defining the thrust direction, and the last number $r=1$ for CCW rotation or $r=-1$ for CW rotation (as viewed from the top of the propeller). Direction $(x,y,z)$ does not need to be unit vector as the optimizer will automatically scale it accordingly.
 
 `"force":[f_max, t_max]`: List of maximum thrust and maximum torque from the propeller.
 
