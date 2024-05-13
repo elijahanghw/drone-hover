@@ -6,7 +6,7 @@ from drone_hover.optimization import Hover
 if __name__ == "__main__":
     # Import drone body
     length = 1
-    drone = Octacopter(length)
+    drone = Dualquad()
 
     # Define hovering optimizer for drone
     sim = Hover(drone)

@@ -23,12 +23,16 @@ class Hover:
         self.Bf = np.zeros((3, drone.num_props))
         self.Bm = np.zeros((3, drone.num_props))
 
-        for idx in range(drone.num_props):
-            prop_size = drone.prop_size[idx]
-            self.Bf[:,idx] = drone.f_max[prop_size] * drone.prop_dir[idx,:3].T
+        for idx, prop in enumerate(drone.props):
+            f_max = prop["force"][0]
+            t_max = prop["force"][1]
+            prop_loc = np.array(prop["loc"])[np.newaxis,:]
+            prop_dir = np.array(prop["dir"])[np.newaxis,:]
             
-            self.Bm[:,idx] = (np.cross(drone.prop_loc[idx,:], drone.f_max[prop_size]*drone.prop_dir[idx,:3])
-                        - drone.tw_max[prop_size]*drone.prop_dir[idx,:3]*drone.prop_dir[idx,3:]).T
+            self.Bf[:,idx] = f_max * prop_dir[0,:3].T
+            
+            self.Bm[:,idx] = (np.cross(prop_loc[0,:], f_max*prop_dir[0,:3])
+                              - t_max*prop_dir[0,:3]*prop_dir[0,3:]).T
             
         self.Bf = inv(m) @ self.Bf
         self.Bm = inv(I) @ self.Bm

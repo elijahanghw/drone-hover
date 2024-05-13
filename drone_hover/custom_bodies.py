@@ -14,34 +14,19 @@ class Biquadcopter:
         self.Iyz = 0
         
         self.length = length
-        # Propeller properties
-        self.f_max = np.array([1])   # max thrust for each propeller
-        self.tw_max = np.array([1])  # max torque for each propeller
-
-        # Drone parameters (for now standard quadcopter)
-        # prop_loc: Propeller location (x, y, z)
-        self.prop_loc = np.array([[length, 0, 0],   
-                                  [length*cos(1/3*pi), length*sin(1/3*pi), 0],
-                                  [length*cos(2/3*pi), length*sin(2/3*pi), 0],
-                                  [length*cos(pi), length*sin(pi), 0],
-                                  [length*cos(4/3*pi), length*sin(4/3*pi), 0],
-                                  [length*cos(5/3*pi), length*sin(5/3*pi), 0]])
-
-        # prop_dir: Unit vector of propeller direction (x,y,z,r=1(ccw) or -1(cw))
-        self.prop_dir = np.array([[0, 0, 1, 1],
-                                  [0, 1, 0, -1],
-                                  [0, 1, 0, 1],
-                                  [0, 0, 1, -1],
-                                  [0, 1, 0, -1],
-                                  [0, 1, 0, 1]])
         
-        # Propeller properties
-        self.f_max = np.array([10])   # max thrust for each propeller
-        self.tw_max = np.array([1])  # max torque for each propeller
+        # Propeller parameters
+        # loc: Propeller location (x, y, z)
+        # dir: Unit vector of propeller direction + rotation direction (x,y,z,r=1(ccw) or -1(cw))
+        # force: maximum force and torque (force, torque)
+        self.props = [{"loc":[length, 0, 0], "dir": [0, 0, 1, 1], "force": [10, 1]},
+                      {"loc":[length*cos(1/3*pi), length*sin(1/3*pi), 0], "dir": [0, 1, 0, -1], "force": [10, 1]},
+                      {"loc":[length*cos(2/3*pi), length*sin(2/3*pi), 0], "dir": [0, 1, 0, 1], "force": [10, 1]},
+                      {"loc":[length*cos(pi), length*sin(pi), 0], "dir": [0, 0, 1, -1], "force": [10, 1]},
+                      {"loc":[length*cos(4/3*pi), length*sin(4/3*pi), 0], "dir": [0, 1, 0, -1], "force": [10, 1]},
+                      {"loc":[length*cos(5/3*pi), length*sin(5/3*pi), 0], "dir": [0, 1, 0, 1], "force": [10, 1]}]
         
-        self.prop_size = np.array([0, 0, 0, 0, 0, 0])
-        
-        self.num_props = self.prop_loc.shape[0]
+        self.num_props = len(self.props)
         
 class Countercopter:
     def __init__(self):
@@ -54,23 +39,15 @@ class Countercopter:
         self.Ixy = 0
         self.Ixz = 0
         self.Iyz = 0
-
-        # Drone parameters (for now standard quadcopter)
-        # prop_loc: Propeller location (x, y, z)
-        self.prop_loc = np.array([[0, 0, 1],   
-                                  [0, 0, -1]])
-
-        # prop_dir: Unit vector of propeller direction (x,y,z,r=1(ccw) or -1(cw))
-        self.prop_dir = np.array([[0, 0, 1, 1],
-                                  [0, 0, -1, 1]])
         
-        # Propeller properties
-        self.f_max = np.array([10])   # max thrust for each propeller
-        self.tw_max = np.array([1])  # max torque for each propeller
+        # Propeller parameters
+        # loc: Propeller location (x, y, z)
+        # dir: Unit vector of propeller direction + rotation direction (x,y,z,r=1(ccw) or -1(cw))
+        # force: maximum force and torque (force, torque)
+        self.props = [{"loc":[0, 0, 1], "dir": [0, 0, 1, 1], "force": [10, 1]},
+                      {"loc":[0, 0, -1], "dir": [0, 0, -1, 1], "force": [10, 1]}]
         
-        self.prop_size = np.array([0, 0])
-        
-        self.num_props = self.prop_loc.shape[0]
+        self.num_props = len(self.props)
         
 class Monocopter:
     def __init__(self):
@@ -83,21 +60,14 @@ class Monocopter:
         self.Ixy = 0
         self.Ixz = 0
         self.Iyz = 0
-
-        # Drone parameters (for now standard quadcopter)
-        # prop_loc: Propeller location (x, y, z)
-        self.prop_loc = np.array([[0, 0, 1]])
-
-        # prop_dir: Unit vector of propeller direction (x,y,z,r=1(ccw) or -1(cw))
-        self.prop_dir = np.array([[0, 0, 1, 1]])
         
-        # Propeller properties
-        self.f_max = np.array([10])   # max thrust for each propeller
-        self.tw_max = np.array([1])  # max torque for each propeller
+        # Propeller parameters
+        # loc: Propeller location (x, y, z)
+        # dir: Unit vector of propeller direction + rotation direction (x,y,z,r=1(ccw) or -1(cw))
+        # force: maximum force and torque (force, torque)
+        self.props = [{"loc":[0, 0, 1], "dir": [0, 0, 1, 1], "force": [10, 1]}]
         
-        self.prop_size = np.array([0])
-        
-        self.num_props = self.prop_loc.shape[0]
+        self.num_props = len(self.props)
         
 class Dualquad:
     def __init__(self):
@@ -111,35 +81,17 @@ class Dualquad:
         self.Ixz = 0
         self.Iyz = 0
         
-        # Propeller properties
-        self.f_max = np.array([1])   # max thrust for each propeller
-        self.tw_max = np.array([1])  # max torque for each propeller
-
-        # Drone parameters (for now standard quadcopter)
-        # prop_loc: Propeller location (x, y, z)
-        self.prop_loc = np.array([[1, 1, 0],   
-                                  [-1, 1, 0],
-                                  [-1, -1, 0],
-                                  [1, -1, 0],
-                                  [1, 1, 0],   
-                                  [-1, 1, 0],
-                                  [-1, -1, 0],
-                                  [1, -1, 0]])
-
-        # prop_dir: Unit vector of propeller direction (x,y,z,r=1(ccw) or -1(cw))
-        self.prop_dir = np.array([[0, 0, 1, 1],
-                                  [0, 0, 1, -1],
-                                  [0, 0, 1, 1],
-                                  [0, 0, 1, -1],
-                                  [0, 0, -1, 1],
-                                  [0, 0, -1, -1],
-                                  [0, 0, -1, 1],
-                                  [0, 0, -1, -1]])
-
-        # Propeller properties
-        self.f_max = np.array([10])   # max thrust for each propeller
-        self.tw_max = np.array([1])  # max torque for each propeller
+        # Propeller parameters
+        # loc: Propeller location (x, y, z)
+        # dir: Unit vector of propeller direction + rotation direction (x,y,z,r=1(ccw) or -1(cw))
+        # force: maximum force and torque (force, torque)
+        self.props = [{"loc":[1, 1, 0], "dir": [0, 0, 1, 1], "force": [10, 1]},
+                      {"loc":[-1, 1, 0], "dir": [0, 0, 1, -1], "force": [10, 1]},
+                      {"loc":[-1, -1, 0], "dir": [0, 0, 1, 1], "force": [10, 1]},
+                      {"loc":[1, -1, 0], "dir": [0, 0, 1, -1], "force": [10, 1]},
+                      {"loc":[1, 1, 0], "dir": [0, 0, -1, 1], "force": [10, 1]},
+                      {"loc":[-1, 1, 0], "dir": [0, 0, -1, -1], "force": [10, 1]},
+                      {"loc":[-1, -1, 0], "dir": [0, 0, -1, 1], "force": [10, 1]},
+                      {"loc":[1, -1, 0], "dir": [0, 0, -1, -1], "force": [10, 1]}]
         
-        self.prop_size = np.array([0, 0, 0, 0, 0, 0, 0, 0])
-
-        self.num_props = self.prop_loc.shape[0]
+        self.num_props = len(self.props)
