@@ -3,7 +3,7 @@
 Compute the hovering capabilities of drones with arbitrary configurations.
 
 ## Defining drone bodies
-The drone has a body-fixed coordinate system attached to the C.G. which follows the right-handed convention (x pointing to the front, y pointing to the right, and z pointing down).
+The drone has a body-fixed coordinate system attached to the C.G. which follows the right-handed convention ($x$ axis pointing to the front, $y$ axis pointing to the right, and $z$ axis pointing down).
 
 Drones are defined using classes, and require inertia and propeller properties as class variables.
 
@@ -13,20 +13,29 @@ Propeller properties are defined using dictionaries, and require the following k
 
 `"loc":[x,y,z]`: List that defines the $(x,y,z)$ coordinates of the propeller in body-fixed axis.
 
-`"dir":[x,y,z,r]`: List that defines the direction of thrust and rotation for the propeller. Includes 4 numbers, first 3 numbers are the $(x,y,z)$ vector defining the thrust direction, and the last number $r=1$ for CCW rotation or $r=-1$ for CW rotation (as viewed from the top of the propeller). Direction $(x,y,z)$ does not need to be unit vector as the optimizer will automatically scale it accordingly.
+`"dir":[x,y,z,r]`: List that defines the direction of thrust and rotation for the propeller. Includes 4 numbers, first 3 numbers are the $(x,y,z)$ vector defining the thrust direction, and the last number $r=1$ for CCW rotation or $r=-1$ for CW rotation (as viewed from the top of the propeller). Direction $(x,y,z)$ does not need to be unit vector as the optimizer will scale it automatically.
 
 `"force":[f_max, t_max]`: List of maximum thrust and maximum torque from the propeller.
 
 Example: 
 
-    self.props = [{"loc":[1, 1, 0], "dir": [0, 0, 1, 1], "force": [10, 1]},
-                  {"loc":[-1, 1, 0], "dir": [0, 0, 1, -1], "force": [10, 1]},
-                  {"loc":[-1, -1, 0], "dir": [0, 0, 1, 1], "force": [10, 1]},
-                  {"loc":[1, -1 0], "dir": [0, 0, 1, -1], "force": [10, 1]}]
+    self.props = [{"loc":[1, 1, 0], "dir": [0, 0, -1, 1], "force": [10, 1]},
+                  {"loc":[-1, 1, 0], "dir": [0, 0, -1, -1], "force": [10, 1]},
+                  {"loc":[-1, -1, 0], "dir": [0, 0, -1, 1], "force": [10, 1]},
+                  {"loc":[1, -1 0], "dir": [0, 0, -1, -1], "force": [10, 1]}]
+
+There are 2 ways to define the drone body.
+1. Creating a class that follows the format as seen in `drone_hover.standard_bodies`.
+2. Call the `Custombody` object
+
+Example:
+
+    from drone_hover.custom_bodies import Custombody
+    drone = Custombody(mass, Ix, Iy, Iz, Ixy, Ixz, Iyz, props)
 
 ## Optimization
 
-Optimization performed using `scipy.optimize.minimize` module, using the SLSQP algorithm.
+Optimization is performed using `scipy.optimize.minimize` module, using the SLSQP algorithm.
 
 Currently, the command bounds are limited to 0.02 to 1, where 0.02 corresponds to idle rotation, and 1 corresponds to maximum thrust.
 
@@ -39,6 +48,6 @@ Currently, the command bounds are limited to 0.02 to 1, where 0.02 corresponds t
 
 ## Limitations:
 
-- Motor commands are are linearly mapped to force output. To update to be proprotionate to square of propeller angular velocity.
+- Motor commands are are linearly mapped to force output. To update to be proprotionate to square of propeller RPM.
 - Spinning hover optimization does not work when force is aligned with torque for all values of input commands. SLSQP require constraints to be twice differentiable. To consider alternative optimization algorithms.
 - The origin of the body-fixed coordinates is assumed to always be on the C.G. To consider a more general case where the origin and the C.G. do not coincide.
