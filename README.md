@@ -3,6 +3,7 @@
 Compute the hovering capabilities of drones with arbitrary configurations.
 
 ## Defining drone bodies
+The drone has a body-fixed coordinate system attached to the C.G. which follows the right-handed convention (x pointing to the front, y pointing to the right, and z pointing down).
 
 Drones are defined using classes, and require inertia and propeller properties as class variables.
 
@@ -40,3 +41,4 @@ Currently, the command bounds are limited to 0.02 to 1, where 0.02 corresponds t
 
 - Motor commands are are linearly mapped to force output. To update to be proprotionate to square of propeller angular velocity.
 - Spinning hover optimization does not work when force is aligned with torque for all values of input commands. SLSQP require constraints to be twice differentiable. To consider alternative optimization algorithms.
+- The origin of the body-fixed coordinates is assumed to always be on the C.G. To consider a more general case where the origin and the C.G. do not coincide.

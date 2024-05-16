@@ -7,6 +7,11 @@ G = 9.81    # gravitational acceleration
 
 class Hover:
     def __init__(self, drone):
+        """Optimal hover optimizer which computes the hovering capabilities of a drone.
+
+        Args:
+            drone (class): Drone class containing inertial properties and propeller configurations.
+        """        
         self.drone = drone
         self.num_props = len(self.drone.props)
         
@@ -47,12 +52,18 @@ class Hover:
         
         
     def compute_hover(self):
+        """Calls the static function to check if drone is able to achieve static hover.
+           If static hover fails, call spinning function.
+        """        
         self.static()
         if self.static_success == False:
             self.spinning()
         
             
     def static(self):
+        """Check if drone is able to achieve static hover.
+           Prints hovering capability, optimal hovering inputs and input cost.
+        """ 
         print("Testing static hover...")
         A = self.Bf.T @ self.Bf
         
@@ -98,6 +109,9 @@ class Hover:
 
     
     def spinning(self):
+        """Check if drone is able to achieve spinning hover.
+           Prints hovering capability, optimal hovering inputs and input cost.
+        """        
         print("Testing spinning hover...")
         A = self.Bf.T @ self.Bf
         
@@ -112,7 +126,7 @@ class Hover:
         
         def moment_constraint(u):
             # This SLSQP constraint does not work for Monocopter and Countercopter
-            # cross(f,tau) always 0, constraint cannot differentiate twice
+            # cross(f,tau) always 0, constraint cannot be differentiated twice
             # i.e. constraint automatically satisfied            
             f = self.Bf @ u
             tau = self.Bm @ u
@@ -154,6 +168,11 @@ class Hover:
             
             
     def drone_checker(self):
+        """Check that drone propeller dictionary has the required format.
+
+        Raises:
+            KeyError: Required key in propellers dictionary missing.
+        """        
         keys = ["loc", "dir", "force"]
         for i, prop in enumerate(self.drone.props):
             for key in keys:
