@@ -39,7 +39,7 @@ class Hover:
             self.Bf[:,idx] = f_max * prop_dir[0,:3].T
             
             self.Bm[:,idx] = (np.cross(prop_loc[0,:], f_max*prop_dir[0,:3])
-                              - t_max*prop_dir[0,:3]*prop_dir[0,3:]).T
+                              + t_max*prop_dir[0,:3]*prop_dir[0,3:]).T
             
         self.Bf = inv(m) @ self.Bf
         self.Bm = inv(I) @ self.Bm
