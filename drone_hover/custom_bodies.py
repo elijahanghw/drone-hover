@@ -44,13 +44,15 @@ class Biquadcopter:
         # Propeller parameters
         # loc: Propeller location (x, y, z)
         # dir: Unit vector of propeller direction + rotation direction (x,y,z,r=1(ccw) or -1(cw))
-        # force: maximum force and torque (force, torque)
-        self.props = [{"loc":[length, 0, 0], "dir": [0, 0, -1, 1], "force": [10, 1]},
-                      {"loc":[length*cos(1/3*pi), length*sin(1/3*pi), 0], "dir": [0, 1, 0, -1], "force": [10, 1]},
-                      {"loc":[length*cos(2/3*pi), length*sin(2/3*pi), 0], "dir": [0, 1, 0, 1], "force": [10, 1]},
-                      {"loc":[length*cos(pi), length*sin(pi), 0], "dir": [0, 0, -1, -1], "force": [10, 1]},
-                      {"loc":[length*cos(4/3*pi), length*sin(4/3*pi), 0], "dir": [0, 1, 0, -1], "force": [10, 1]},
-                      {"loc":[length*cos(5/3*pi), length*sin(5/3*pi), 0], "dir": [0, 1, 0, 1], "force": [10, 1]}]
+        # constants: propeller force and torque constants (force, torque)
+        # wmax: maximum rotation speed in rad/s
+        
+        self.props = [{"loc":[length, 0, 0], "dir": [0, 0, -1, 1], "constants": [4.5e-04, 2.5e-06], "wmax": 30000},
+                      {"loc":[length*cos(1/3*pi), length*sin(1/3*pi), 0], "dir": [0, 1, 0, -1], "constants": [4.5e-04, 2.5e-06], "wmax": 30000},
+                      {"loc":[length*cos(2/3*pi), length*sin(2/3*pi), 0], "dir": [0, 1, 0, 1], "constants": [4.5e-04, 2.5e-06], "wmax": 30000},
+                      {"loc":[length*cos(pi), length*sin(pi), 0], "dir": [0, 0, -1, -1], "constants": [4.5e-04, 2.5e-06], "wmax": 30000},
+                      {"loc":[length*cos(4/3*pi), length*sin(4/3*pi), 0], "dir": [0, 1, 0, -1], "constants": [4.5e-04, 2.5e-06], "wmax": 30000},
+                      {"loc":[length*cos(5/3*pi), length*sin(5/3*pi), 0], "dir": [0, 1, 0, 1], "constants": [4.5e-04, 2.5e-06], "wmax": 30000}]
  
         
 class Countercopter:
@@ -68,9 +70,11 @@ class Countercopter:
         # Propeller parameters
         # loc: Propeller location (x, y, z)
         # dir: Unit vector of propeller direction + rotation direction (x,y,z,r=1(ccw) or -1(cw))
-        # force: maximum force and torque (force, torque)
-        self.props = [{"loc":[0, 0, -1], "dir": [0, 0, -1, 1], "force": [10, 1]},
-                      {"loc":[0, 0, 1], "dir": [0, 0, 1, 1], "force": [10, 1]}]
+        # constants: propeller force and torque constants (force, torque)
+        # wmax: maximum rotation speed in rad/s
+        
+        self.props = [{"loc":[0, 0, -1], "dir": [0, 0, -1, 1], "constants": [4.5e-04, 2.5e-06], "wmax": 30000},
+                      {"loc":[0, 0, 1], "dir": [0, 0, 1, 1], "constants": [4.5e-04, 2.5e-06], "wmax": 30000}]
         
         
 class Monocopter:
@@ -88,8 +92,10 @@ class Monocopter:
         # Propeller parameters
         # loc: Propeller location (x, y, z)
         # dir: Unit vector of propeller direction + rotation direction (x,y,z,r=1(ccw) or -1(cw))
-        # force: maximum force and torque (force, torque)
-        self.props = [{"loc":[0, 0, -1], "dir": [0, 0, -1, 1], "force": [10, 1]}]
+        # constants: propeller force and torque constants (force, torque)
+        # wmax: maximum rotation speed in rad/s
+        
+        self.props = [{"loc":[0, 0, -1], "dir": [0, 0, -1, 1], "constants": [4.5e-04, 2.5e-06], "wmax": 30000}]
         
         
 class Dualquad:
@@ -107,12 +113,14 @@ class Dualquad:
         # Propeller parameters
         # loc: Propeller location (x, y, z)
         # dir: Unit vector of propeller direction + rotation direction (x,y,z,r=1(ccw) or -1(cw))
-        # force: maximum force and torque (force, torque)
-        self.props = [{"loc":[1, 1, 0], "dir": [0, 0, -1, 1], "force": [10, 1]},
-                      {"loc":[-1, 1, 0], "dir": [0, 0, -1, -1], "force": [10, 1]},
-                      {"loc":[-1, -1, 0], "dir": [0, 0, -1, 1], "force": [10, 1]},
-                      {"loc":[1, -1, 0], "dir": [0, 0, -1, -1], "force": [10, 1]},
-                      {"loc":[1, 1, 0], "dir": [0, 0, 1, 1], "force": [10, 1]},
-                      {"loc":[-1, 1, 0], "dir": [0, 0, 1, -1], "force": [10, 1]},
-                      {"loc":[-1, -1, 0], "dir": [0, 0, 1, 1], "force": [10, 1]},
-                      {"loc":[1, -1, 0], "dir": [0, 0, 1, -1], "force": [10, 1]}]
+        # constants: propeller force and torque constants (force, torque)
+        # wmax: maximum rotation speed in rad/s
+        
+        self.props = [{"loc":[1, 1, 0], "dir": [0, 0, -1, 1], "constants": [4.5e-04, 2.5e-06], "wmax": 30000},
+                      {"loc":[-1, 1, 0], "dir": [0, 0, -1, -1], "constants": [4.5e-04, 2.5e-06], "wmax": 30000},
+                      {"loc":[-1, -1, 0], "dir": [0, 0, -1, 1], "constants": [4.5e-04, 2.5e-06], "wmax": 30000},
+                      {"loc":[1, -1, 0], "dir": [0, 0, -1, -1], "constants": [4.5e-04, 2.5e-06], "wmax": 30000},
+                      {"loc":[1, 1, 0], "dir": [0, 0, 1, 1], "constants": [4.5e-04, 2.5e-06], "wmax": 30000},
+                      {"loc":[-1, 1, 0], "dir": [0, 0, 1, -1], "constants": [4.5e-04, 2.5e-06], "wmax": 30000},
+                      {"loc":[-1, -1, 0], "dir": [0, 0, 1, 1], "constants": [4.5e-04, 2.5e-06], "wmax": 30000},
+                      {"loc":[1, -1, 0], "dir": [0, 0, 1, -1], "constants": [4.5e-04, 2.5e-06], "wmax": 30000}]
