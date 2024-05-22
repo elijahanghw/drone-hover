@@ -101,7 +101,7 @@ class Hover:
             self.u = np.sqrt(self.eta)
             f = self.Bf @ self.eta
             tau = self.Bm @ self.eta
-            input_cost = self.u.T @ self.u
+            input_cost = self.eta.T @ self.eta
             print(f'Optimum input = {self.u}')
             print(f'Resultant specific force: {norm(f):.2f}')
             print(f'Resultant specific torque: {norm(tau):.2f}')
@@ -154,7 +154,7 @@ class Hover:
             self.u = np.sqrt(self.eta)
             f = self.Bf @ self.eta
             tau = self.Bm @ self.eta
-            input_cost = self.u.T @ self.eta
+            input_cost = self.eta.T @ self.eta
             print(f'Optimum input = {self.u}')
             print(f'Resultant specific force: {norm(f)}:.2f')
             print(f'Resultant specific torque: {norm(tau)}:.2f')
