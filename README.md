@@ -27,10 +27,10 @@ Propeller properties are defined using dictionaries, and require the following k
 
 Example: 
 
-    self.props = [{"loc":[1, 1, 0], "dir": [0, 0, -1, 1], "constants": [4.5e-04, 2.5e-06], "wmax": 30000},
-                  {"loc":[-1, 1, 0], "dir": [0, 0, -1, -1], "constants": [4.5e-04, 2.5e-06], "wmax": 30000},
-                  {"loc":[-1, -1, 0], "dir": [0, 0, -1, 1], "constants": [4.5e-04, 2.5e-06], "wmax": 30000},
-                  {"loc":[1, -1 0], "dir": [0, 0, -1, -1], "constants": [4.5e-04, 2.5e-06], "wmax": 30000}]
+    props = [{"loc":[1, 1, 0], "dir": [0, 0, -1, 1], "constants": [5.15e-06, 1.72e-06], "wmax": 3927},
+                  {"loc":[-1, 1, 0], "dir": [0, 0, -1, -1], "constants": [5.15e-06, 1.72e-06], "wmax": 3927},
+                  {"loc":[-1, -1, 0], "dir": [0, 0, -1, 1], "constants": [5.15e-06, 1.72e-06], "wmax": 3927},
+                  {"loc":[1, -1 0], "dir": [0, 0, -1, -1], "constants": [5.15e-06, 1.72e-06], "wmax": 3927}]
 
 There are 2 ways to define the drone body.
 1. Creating a class that follows the format as seen in `drone_hover.standard_bodies`.
@@ -41,19 +41,24 @@ Example:
     from drone_hover.custom_bodies import Custombody
     drone = Custombody(mass, Ix, Iy, Iz, Ixy, Ixz, Iyz, props)
 
+## Propeller Commands
+
+This code utilizes 2 levels of mapping for the propeller commands.
+1. The propeller angular velocity is normalized such that $f:\omega \rightarrow \hat{\omega}$, where $\omega \in [0.02\omega_{max}, \omega_{max}]$ and $\hat{\omega} \in [0.02, 1]$. The factor 0.02 is arbitrarily selected to be the idling speed of the propeller. This mapping embeds the propeller information into the propeller effectiveness matrices. 
+2. When giving actual commands to the drone, it is more convinient to give a command $u \in [0,1]$. Hence, a second map $g:\hat{\omega} \rightarrow u$ is defined.
+
+This is done to ensure that the equations remain linear (to $\omega^2$). Optimization will be performed using $\hat{\omega}$, while actual controls will be performed using $u$.
+
 ## Optimization
 
 Optimization is performed using `scipy.optimize.minimize` module, using the SLSQP algorithm.
-
-Propeller angular velocity is defined as $\omega = \omega_{max} u$, where $u \in [0.02,1]$.
-
-Currently, the command bounds are arbitrarily limited to 0.02 to 1, where 0.02 corresponds to idle RPM, and 1 corresponds to maximum RPM. This means that $\omega_{min} = 0$. This is done to remove bilinear terms when taking the square of propeller angular rotation for convinience.
 
 ## Current capabilities: 
 
 - Determine whether a drone can hover statically, while spinning, or not able to hover at all.
 - Works on drones with arbitrary configurations (e.g. number of propellers, location of propellers, direction of propellers, etc.).
 - Computes the input commands for most efficient hover.
+- Computes the maximum thrust to weight ratio at hovering configuration
 - Computes the cost of most efficient hover.
 
 ## Limitations:

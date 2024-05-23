@@ -23,7 +23,7 @@ class Hover:
                       [0, drone.Iy, 0],
                       [0, 0, drone.Iz]])
 
-        self.command_bounds = np.array((0.02, 1))
+        self.w_hat_bounds = np.array((0.02, 1))
 
         # Compute effectiveness matrices Bf and Bm
         self.Bf = np.zeros((3, self.num_props))
@@ -37,7 +37,7 @@ class Hover:
             prop_dir = np.array(prop["dir"])[np.newaxis,:]
             prop_dir[0,:3] = prop_dir[0,:3]/norm(prop_dir[0,:3])
             
-            self.Bf[:,idx] = k_f * w_max * prop_dir[0,:3].T
+            self.Bf[:,idx] = k_f * w_max**2 * prop_dir[0,:3].T
             
             self.Bm[:,idx] = (np.cross(prop_loc[0,:], k_f*w_max**2*prop_dir[0,:3])
                               + k_m*w_max**2*prop_dir[0,:3]*prop_dir[0,3:]).T
@@ -48,8 +48,8 @@ class Hover:
         self.W = np.eye(self.num_props)
         
         self.control_limits = np.ones((self.num_props, 2))
-        self.control_limits[:,0] *= self.command_bounds[0]
-        self.control_limits[:,1] *= self.command_bounds[1]
+        self.control_limits[:,0] *= self.w_hat_bounds[0]
+        self.control_limits[:,1] *= self.w_hat_bounds[1]
         
         
     def compute_hover(self):
@@ -68,8 +68,8 @@ class Hover:
         print("Testing static hover...")
         A = self.Bf.T @ self.Bf
         
-        # Defining eta as a shorthand (eta = u**2)
-        eta0 = np.random.uniform(low=self.command_bounds[0]**2, high=self.command_bounds[1]**2, size=self.num_props)
+        # Defining eta as a shorthand (eta = w_hat**2)
+        eta0 = np.random.uniform(low=self.w_hat_bounds[0]**2, high=self.w_hat_bounds[1]**2, size=self.num_props)
         
         def objective_function(eta):
             return eta.T @ eta
@@ -85,7 +85,7 @@ class Hover:
         
         bnds = []
         for i in range(self.control_limits.shape[0]):
-            bnds.append((self.command_bounds[0]**2, self.command_bounds[1]**2)) 
+            bnds.append((self.w_hat_bounds[0]**2, self.w_hat_bounds[1]**2)) 
         opt = {'maxiter':1000}
         
         with warnings.catch_warnings():
@@ -98,13 +98,21 @@ class Hover:
         if static_hover.success == True:
             print("----------Static Hover Achieved----------")
             self.eta = static_hover.x
-            self.u = np.sqrt(self.eta)
+            self.w_hat = np.sqrt(self.eta)
+            self.u = self.w_to_u(self.w_hat)
             f = self.Bf @ self.eta
             tau = self.Bm @ self.eta
             input_cost = self.eta.T @ self.eta
+            
+            self.u_max = self.u / max(self.u)
+            self.w_hat_max = self.u_to_w(self.u_max)
+            
+            f_max = self.Bf @ (self.w_hat_max)**2
+            
             print(f'Optimum input = {self.u}')
             print(f'Resultant specific force: {norm(f):.2f}')
             print(f'Resultant specific torque: {norm(tau):.2f}')
+            print(f'Max thrust to weight: {norm(f_max)/G:.2f}')
             print(f"Input cost: {input_cost:.5f}")
 
         else:
@@ -141,7 +149,7 @@ class Hover:
         
         bnds = []
         for i in range(self.control_limits.shape[0]):
-            bnds.append((self.command_bounds[0]**2, self.command_bounds[1]**2)) 
+            bnds.append((self.w_hat_bounds[0]**2, self.w_hat_bounds[1]**2)) 
         opt = {'maxiter':1000}
         
         with warnings.catch_warnings():
@@ -151,7 +159,8 @@ class Hover:
         if spinning_hover.success == True:
             print("----------Spinning Hover Achieved----------")
             self.eta = spinning_hover.x
-            self.u = np.sqrt(self.eta)
+            self.w_hat = np.sqrt(self.eta)
+            self.u = self.w_to_u(self.w_hat)
             f = self.Bf @ self.eta
             tau = self.Bm @ self.eta
             input_cost = self.eta.T @ self.eta
@@ -186,3 +195,9 @@ class Hover:
                     pass
                 else:
                     raise KeyError(f"\"{key}\" is missing in propeller {i}")
+                
+    def w_to_u(self, w_hat):
+        return (w_hat - 0.02)/0.98
+    
+    def u_to_w(self, u):
+        return 0.02 + 0.98*u
