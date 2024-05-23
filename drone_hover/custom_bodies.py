@@ -47,12 +47,12 @@ class Biquadcopter:
         # constants: propeller force and torque constants (force, torque)
         # wmax: maximum rotation speed in rad/s
         
-        self.props = [{"loc":[length, 0, 0], "dir": [0, 0, -1, 1], "constants": [7.25e-07, 2.69e-08], "wmax": 3927},
-                      {"loc":[length*cos(1/3*pi), length*sin(1/3*pi), 0], "dir": [0, 1, 0, -1], "constants": [7.25e-07, 2.69e-08], "wmax": 3927},
-                      {"loc":[length*cos(2/3*pi), length*sin(2/3*pi), 0], "dir": [0, 1, 0, 1], "constants": [7.25e-07, 2.69e-08], "wmax": 3927},
-                      {"loc":[length*cos(pi), length*sin(pi), 0], "dir": [0, 0, -1, -1], "constants": [7.25e-07, 2.69e-08], "wmax": 3927},
-                      {"loc":[length*cos(4/3*pi), length*sin(4/3*pi), 0], "dir": [0, 1, 0, -1], "constants": [7.25e-07, 2.69e-08], "wmax": 3927},
-                      {"loc":[length*cos(5/3*pi), length*sin(5/3*pi), 0], "dir": [0, 1, 0, 1], "constants": [7.25e-07, 2.69e-08], "wmax": 3927}]
+        self.props = [{"loc":[length, 0, 0], "dir": [0, 0, -1, 1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                      {"loc":[length*cos(1/3*pi), length*sin(1/3*pi), 0], "dir": [0, 1, 0, -1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                      {"loc":[length*cos(2/3*pi), length*sin(2/3*pi), 0], "dir": [0, 1, 0, 1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                      {"loc":[length*cos(pi), length*sin(pi), 0], "dir": [0, 0, -1, -1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                      {"loc":[length*cos(4/3*pi), length*sin(4/3*pi), 0], "dir": [0, 1, 0, -1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                      {"loc":[length*cos(5/3*pi), length*sin(5/3*pi), 0], "dir": [0, 1, 0, 1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927}]
  
         
 class Countercopter:
@@ -73,8 +73,8 @@ class Countercopter:
         # constants: propeller force and torque constants (force, torque)
         # wmax: maximum rotation speed in rad/s
         
-        self.props = [{"loc":[0, 0, -1], "dir": [0, 0, -1, 1], "constants": [7.25e-07, 2.69e-08], "wmax": 3927},
-                      {"loc":[0, 0, 1], "dir": [0, 0, 1, 1], "constants": [7.25e-07, 2.69e-08], "wmax": 3927}]
+        self.props = [{"loc":[0, 0, -1], "dir": [0, 0, -1, 1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                      {"loc":[0, 0, 1], "dir": [0, 0, 1, 1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927}]
         
         
 class Monocopter:
@@ -95,7 +95,7 @@ class Monocopter:
         # constants: propeller force and torque constants (force, torque)
         # wmax: maximum rotation speed in rad/s
         
-        self.props = [{"loc":[0, 0, -1], "dir": [0, 0, -1, 1],"constants": [7.25e-07, 2.69e-08], "wmax": 3927}]
+        self.props = [{"loc":[0, 0, -1], "dir": [0, 0, -1, 1],"constants": [7.24e-07, 8.20e-09], "wmax": 3927}]
         
         
 class Dualquad:
@@ -116,11 +116,11 @@ class Dualquad:
         # constants: propeller force and torque constants (force, torque)
         # wmax: maximum rotation speed in rad/s
         
-        self.props = [{"loc":[1, 1, 0], "dir": [0, 0, -1, 1], "constants": [7.25e-07, 2.69e-08], "wmax": 3927},
-                      {"loc":[-1, 1, 0], "dir": [0, 0, -1, -1], "constants": [7.25e-07, 2.69e-08], "wmax": 3927},
-                      {"loc":[-1, -1, 0], "dir": [0, 0, -1, 1], "constants": [7.25e-07, 2.69e-08], "wmax": 3927},
-                      {"loc":[1, -1, 0], "dir": [0, 0, -1, -1], "constants": [7.25e-07, 2.69e-08], "wmax": 3927},
-                      {"loc":[1, 1, 0], "dir": [0, 0, 1, 1], "constants": [7.61e-06, 3.74e-07], "wmax": 1963},
-                      {"loc":[-1, 1, 0], "dir": [0, 0, 1, -1], "constants": [7.61e-06, 3.74e-07], "wmax": 1963},
-                      {"loc":[-1, -1, 0], "dir": [0, 0, 1, 1], "constants": [7.61e-06, 3.74e-07], "wmax": 1963},
-                      {"loc":[1, -1, 0], "dir": [0, 0, 1, -1], "constants": [7.61e-06, 3.74e-07], "wmax": 1963}]
+        self.props = [{"loc":[1, 1, 0], "dir": [0, 0, -1, 1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                      {"loc":[-1, 1, 0], "dir": [0, 0, -1, -1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                      {"loc":[-1, -1, 0], "dir": [0, 0, -1, 1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                      {"loc":[1, -1, 0], "dir": [0, 0, -1, -1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                      {"loc":[1, 1, 0], "dir": [0, 0, 1, 1], "constants": [7.60e-06, 1.14e-07], "wmax": 1963},
+                      {"loc":[-1, 1, 0], "dir": [0, 0, 1, -1], "constants": [7.60e-06, 1.14e-07], "wmax": 1963},
+                      {"loc":[-1, -1, 0], "dir": [0, 0, 1, 1], "constants": [7.60e-06, 1.14e-07], "wmax": 1963},
+                      {"loc":[1, -1, 0], "dir": [0, 0, 1, -1], "constants": [7.60e-06, 1.14e-07], "wmax": 1963}]
