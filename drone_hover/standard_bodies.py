@@ -5,6 +5,7 @@ class Quadcopter:
     def __init__(self, length):
         # Inertia properties
         self.mass = 1
+        self.cg = [0, 0, 0]
 
         self.Ix = 1
         self.Iy = 1
@@ -20,10 +21,10 @@ class Quadcopter:
         # constants: propeller force and torque constants (force, torque)
         # wmax: maximum rotation speed in rad/s
         
-        self.props = [{"loc":[length*cos(1/4*pi), length*sin(1/4*pi), 0], "dir": [0, 0, -1, 1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
-                      {"loc":[length*cos(3/4*pi), length*sin(3/4*pi), 0], "dir": [0, 0, -1, -1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
-                      {"loc":[length*cos(5/4*pi), length*sin(5/4*pi), 0], "dir": [0, 0, -1, 1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
-                      {"loc":[length*cos(7/4*pi), length*sin(7/4*pi), 0], "dir": [0, 0, -1, -1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927}]
+        self.props = [{"loc":[length*cos(1/4*pi), length*sin(1/4*pi), 0], "dir": [0, 0, -1, "ccw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                      {"loc":[length*cos(3/4*pi), length*sin(3/4*pi), 0], "dir": [0, 0, -1, "cw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                      {"loc":[length*cos(5/4*pi), length*sin(5/4*pi), 0], "dir": [0, 0, -1, "ccw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                      {"loc":[length*cos(7/4*pi), length*sin(7/4*pi), 0], "dir": [0, 0, -1, "cw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927}]
         
 
 # Standard tricopter without tilt rotor
@@ -31,6 +32,8 @@ class Tricopter:
     def __init__(self, length):
         # Inertia properties
         self.mass = 1
+        self.cg = [0, 0, 0]
+        
         self.Ix = 1
         self.Iy = 1
         self.Iz = 1
@@ -47,9 +50,9 @@ class Tricopter:
         # constants: propeller force and torque constants (force, torque)
         # wmax: maximum rotation speed in rad/s
         
-        self.props = [{"loc":[length, 0, 0], "dir": [0, 0, -1, 1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
-                      {"loc":[length*cos(2/3*pi), length*sin(2/3*pi), 0], "dir": [0, 0, -1, -1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
-                      {"loc":[length*cos(4/3*pi), length*sin(4/3*pi), 0], "dir": [0, 0, -1, 1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927}]
+        self.props = [{"loc":[length, 0, 0], "dir": [0, 0, -1, "ccw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                      {"loc":[length*cos(2/3*pi), length*sin(2/3*pi), 0], "dir": [0, 0, -1, "cw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                      {"loc":[length*cos(4/3*pi), length*sin(4/3*pi), 0], "dir": [0, 0, -1, "ccw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927}]
         
 
 # Standard hexacopter  
@@ -57,6 +60,8 @@ class Hexacopter:
     def __init__(self, length):
         # Inertia properties
         self.mass = 1
+        self.cg = [0, 0, 0]
+
         self.Ix = 1
         self.Iy = 1
         self.Iz = 1
@@ -73,12 +78,12 @@ class Hexacopter:
         # constants: propeller force and torque constants (force, torque)
         # wmax: maximum rotation speed in rad/s
         
-        self.props = [{"loc":[length, 0, 0], "dir": [0, 0, -1, 1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
-                      {"loc":[length*cos(1/3*pi), length*sin(1/3*pi), 0], "dir": [0, 0, -1, -1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
-                      {"loc":[length*cos(2/3*pi), length*sin(2/3*pi), 0], "dir": [0, 0, -1, 1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
-                      {"loc":[length*cos(pi), length*sin(pi), 0], "dir": [0, 0, -1, -1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
-                      {"loc":[length*cos(4/3*pi), length*sin(4/3*pi), 0], "dir": [0, 0, -1, 1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
-                      {"loc":[length*cos(5/3*pi), length*sin(5/3*pi), 0], "dir": [0, 0, -1, -1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927}]
+        self.props = [{"loc":[length, 0, 0], "dir": [0, 0, -1, "ccw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                      {"loc":[length*cos(1/3*pi), length*sin(1/3*pi), 0], "dir": [0, 0, -1, "cw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                      {"loc":[length*cos(2/3*pi), length*sin(2/3*pi), 0], "dir": [0, 0, -1, "ccw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                      {"loc":[length*cos(pi), length*sin(pi), 0], "dir": [0, 0, -1, "cw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                      {"loc":[length*cos(4/3*pi), length*sin(4/3*pi), 0], "dir": [0, 0, -1, "ccw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                      {"loc":[length*cos(5/3*pi), length*sin(5/3*pi), 0], "dir": [0, 0, -1, "cw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927}]
         
 
 # Standard Octacopter
@@ -86,6 +91,8 @@ class Octacopter:
     def __init__(self, length):
         # Inertia properties
         self.mass = 1
+        self.cg = [0, 0, 0]
+
         self.Ix = 1
         self.Iy = 1
         self.Iz = 1
@@ -102,11 +109,11 @@ class Octacopter:
         # constants: propeller force and torque constants (force, torque)
         # wmax: maximum rotation speed in rad/s
         
-        self.props = [{"loc":[length, 0, 0], "dir": [0, 0, -1, 1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
-                      {"loc":[length*cos(1/4*pi), length*sin(1/4*pi), 0], "dir": [0, 0, -1, -1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
-                      {"loc":[length*cos(2/4*pi), length*sin(2/4*pi), 0], "dir": [0, 0, -1, 1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
-                      {"loc":[length*cos(3/4*pi), length*sin(3/4*pi), 0], "dir": [0, 0, -1, -1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
-                      {"loc":[length*cos(pi), length*sin(pi), 0], "dir": [0, 0, -1, 1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
-                      {"loc":[length*cos(5/4*pi), length*sin(5/4*pi), 0], "dir": [0, 0, -1, -1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
-                      {"loc":[length*cos(6/4*pi), length*sin(6/4*pi), 0], "dir": [0, 0, -1, 1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
-                      {"loc":[length*cos(7/4*pi), length*sin(7/4*pi), 0], "dir": [0, 0, -1, -1], "constants": [7.24e-07, 8.20e-09], "wmax": 3927}]
+        self.props = [{"loc":[length, 0, 0], "dir": [0, 0, -1, "ccw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                      {"loc":[length*cos(1/4*pi), length*sin(1/4*pi), 0], "dir": [0, 0, -1, "cw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                      {"loc":[length*cos(2/4*pi), length*sin(2/4*pi), 0], "dir": [0, 0, -1, "ccw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                      {"loc":[length*cos(3/4*pi), length*sin(3/4*pi), 0], "dir": [0, 0, -1, "cw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                      {"loc":[length*cos(pi), length*sin(pi), 0], "dir": [0, 0, -1, "ccw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                      {"loc":[length*cos(5/4*pi), length*sin(5/4*pi), 0], "dir": [0, 0, -1, "cw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                      {"loc":[length*cos(6/4*pi), length*sin(6/4*pi), 0], "dir": [0, 0, -1, "ccw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                      {"loc":[length*cos(7/4*pi), length*sin(7/4*pi), 0], "dir": [0, 0, -1, "cw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927}]

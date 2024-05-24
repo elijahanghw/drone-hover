@@ -9,17 +9,17 @@ Compute the hovering capabilities of drones with arbitrary configurations.
 2. Propeller forces are now defined using force and moment constants rather than maximum thrust and moments.
 
 ## Defining drone bodies
-The drone has a body-fixed coordinate system attached to the C.G. which follows the right-handed convention ($x$ axis pointing to the front, $y$ axis pointing to the right, and $z$ axis pointing down).
+The drone has a body-fixed coordinate system which follows the right-handed convention ($x$ axis pointing to the front, $y$ axis pointing to the right, and $z$ axis pointing down). Propeller positions and directions are defined using this coordinate system. The C.G. of the drone may not necessarily coincide with the origin of the coordinate system, and needs to be defined.
 
 Drones are defined using classes, and require inertia and propeller properties as class variables.
 
-Inertia properties are the mass and moment of inertia of the drone, and are defined using variables.
+Inertia properties are the mass and moment of inertia of the drone, and are defined using variables. C.G. location is also defined as a list.
 
 Propeller properties are defined using dictionaries, and require the following keywords:
 
 `"loc":[x,y,z]`: List that defines the $(x,y,z)$ coordinates of the propeller in body-fixed axis.
 
-`"dir":[x,y,z,r]`: List that defines the direction of thrust and rotation for the propeller. Includes 4 numbers, first 3 numbers are the $(x,y,z)$ vector defining the thrust direction, and the last number $r=1$ for CCW rotation or $r=-1$ for CW rotation (as viewed from the top of the propeller). Direction $(x,y,z)$ does not need to be unit vector as the optimizer will scale it automatically.
+`"dir":[x,y,z,r]`: List that defines the direction of thrust and rotation for the propeller. Includes 4 numbers, first 3 numbers are the $(x,y,z)$ vector defining the thrust direction, and the entry indicates counterclockwise (ccw) or clockwise (cw) rotation (as viewed from the top of the propeller). Direction $(x,y,z)$ does not need to be unit vector as the optimizer will scale it automatically.
 
 `"constants":[k_f, k_m]`: Thrust and moment constant for the propeller.
 
@@ -27,10 +27,10 @@ Propeller properties are defined using dictionaries, and require the following k
 
 Example: 
 
-    props = [{"loc":[1, 1, 0], "dir": [0, 0, -1, 1], "constants": [5.15e-06, 1.72e-06], "wmax": 3927},
-                  {"loc":[-1, 1, 0], "dir": [0, 0, -1, -1], "constants": [5.15e-06, 1.72e-06], "wmax": 3927},
-                  {"loc":[-1, -1, 0], "dir": [0, 0, -1, 1], "constants": [5.15e-06, 1.72e-06], "wmax": 3927},
-                  {"loc":[1, -1 0], "dir": [0, 0, -1, -1], "constants": [5.15e-06, 1.72e-06], "wmax": 3927}]
+    props = [{"loc":[1, 1, 0], "dir": [0, 0, -1, "ccw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                  {"loc":[-1, 1, 0], "dir": [0, 0, -1, "cw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                  {"loc":[-1, -1, 0], "dir": [0, 0, -1, "ccw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                  {"loc":[1, -1 0], "dir": [0, 0, -1, "cw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927}]
 
 There are 2 ways to define the drone body.
 1. Creating a class that follows the format as seen in `drone_hover.standard_bodies`.
@@ -39,7 +39,7 @@ There are 2 ways to define the drone body.
 Example:
 
     from drone_hover.custom_bodies import Custombody
-    drone = Custombody(mass, Ix, Iy, Iz, Ixy, Ixz, Iyz, props)
+    drone = Custombody(self, mass, cg, Ix, Iy, Iz, Ixy, Ixz, Iyz, props)
 
 ## Propeller Commands
 
@@ -64,4 +64,3 @@ Optimization is performed using `scipy.optimize.minimize` module, using the SLSQ
 ## Limitations:
 
 - Spinning hover optimization does not work when force is aligned with torque for all values of input commands. SLSQP require constraints to be twice differentiable. To consider alternative optimization algorithms.
-- The origin of the body-fixed coordinates is assumed to always be on the C.G. To consider a more general case where the origin and the C.G. do not coincide.

@@ -13,15 +13,18 @@ class Hover:
             drone (class): Drone class containing inertial properties and propeller configurations.
         """        
         self.drone = drone
+        
         self.num_props = len(self.drone.props)
         
         self.drone_checker()
         
         m = drone.mass * np.eye(3)
         
+        cg = np.asarray(drone.cg)
+        
         I = np.array([[drone.Ix, 0, 0],
-                      [0, drone.Iy, 0],
-                      [0, 0, drone.Iz]])
+                    [0, drone.Iy, 0],
+                    [0, 0, drone.Iz]])
 
         self.w_hat_bounds = np.array((0.02, 1))
 
@@ -33,14 +36,17 @@ class Hover:
             k_f = prop["constants"][0]
             k_m = prop["constants"][1]
             w_max = prop["wmax"] 
-            prop_loc = np.array(prop["loc"])[np.newaxis,:]
-            prop_dir = np.array(prop["dir"])[np.newaxis,:]
-            prop_dir[0,:3] = prop_dir[0,:3]/norm(prop_dir[0,:3])
+            prop_loc = np.array(prop["loc"])[np.newaxis,:] # Position of propeller from body-fixed axis
+            prop_r = prop_loc - cg[np.newaxis,:]    # Position of propeller from C.G.
+            prop_dir = np.array(prop["dir"][:3]) # Direction of thrust vector
+            prop_dir = (prop_dir/norm(prop_dir))[np.newaxis,:]
+            
+            prop_rot = 1 if prop["dir"][-1] == "ccw" else -1    # Direction of propeller rotation
             
             self.Bf[:,idx] = k_f * w_max**2 * prop_dir[0,:3].T
             
-            self.Bm[:,idx] = (np.cross(prop_loc[0,:], k_f*w_max**2*prop_dir[0,:3])
-                              + k_m*w_max**2*prop_dir[0,:3]*prop_dir[0,3:]).T
+            self.Bm[:,idx] = (np.cross(prop_r[0,:], k_f*w_max**2*prop_dir[0,:])
+                            + k_m*w_max**2*prop_rot*prop_dir[0,:]).T
             
         self.Bf = inv(m) @ self.Bf
         self.Bm = inv(I) @ self.Bm
@@ -128,7 +134,7 @@ class Hover:
         
         # Defining eta as a shorthand (eta = u**2)
         # Somehow if values of u are all equal it does not work
-        eta0 = np.random.uniform(low=self.command_bounds[0]**2, high=self.command_bounds[1]**2, size=self.num_props)
+        eta0 = np.random.uniform(low=self.w_hat_bounds[0]**2, high=self.w_hat_bounds[1]**2, size=self.num_props)
         
         def objective_function(eta):
             return eta.T @ eta
@@ -137,8 +143,8 @@ class Hover:
             return eta.T @ A @ eta - G**2
         
         def moment_constraint(eta):
-            # This SLSQP constraint does not work for Monocopter and Countercopter
-            # cross(f,tau) always 0, constraint cannot be differentiated twice
+            # This SLSQP constraint does not work for if cross(f,tau) always 0
+            # Constraint cannot be differentiated twice
             # i.e. constraint automatically satisfied            
             f = self.Bf @ eta
             tau = self.Bm @ eta
@@ -164,10 +170,17 @@ class Hover:
             f = self.Bf @ self.eta
             tau = self.Bm @ self.eta
             input_cost = self.eta.T @ self.eta
+            
+            self.u_max = self.u / max(self.u)
+            self.w_hat_max = self.u_to_w(self.u_max)
+            
+            f_max = self.Bf @ (self.w_hat_max)**2
+            
             print(f'Optimum input = {self.u}')
-            print(f'Resultant specific force: {norm(f)}:.2f')
-            print(f'Resultant specific torque: {norm(tau)}:.2f')
+            print(f'Resultant specific force: {norm(f):.2f}')
+            print(f'Resultant specific torque: {norm(tau):.2f}')
             print(f"Force-torque cross product norm: {norm(np.cross(f,tau)):.5f}")
+            print(f'Max thrust to weight: {norm(f_max)/G:.2f}')
             print(f"Input cost: {input_cost}")
             
         else:
@@ -195,6 +208,10 @@ class Hover:
                     pass
                 else:
                     raise KeyError(f"\"{key}\" is missing in propeller {i}")
+                
+            if prop["dir"][-1] != "ccw" and prop["dir"][-1] != "cw":
+                raise ValueError(f"Invalid value for propeller spinning direction. Use only \"ccw\" or \"cw\"")
+           
                 
     def w_to_u(self, w_hat):
         return (w_hat - 0.02)/0.98
