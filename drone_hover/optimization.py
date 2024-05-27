@@ -43,7 +43,7 @@ class Hover:
             
             prop_rot = 1 if prop["dir"][-1] == "ccw" else -1    # Direction of propeller rotation
             
-            self.Bf[:,idx] = k_f * w_max**2 * prop_dir[0,:3].T
+            self.Bf[:,idx] = k_f * w_max**2 * prop_dir[0,:].T
             
             self.Bm[:,idx] = (np.cross(prop_r[0,:], k_f*w_max**2*prop_dir[0,:])
                             + k_m*w_max**2*prop_rot*prop_dir[0,:]).T
@@ -116,6 +116,7 @@ class Hover:
             f_max = self.Bf @ (self.w_hat_max)**2
             
             print(f'Optimum input = {self.u}')
+            print(f'Thrust vector direction: {f/norm(f)}')
             print(f'Resultant specific force: {norm(f):.2f}')
             print(f'Resultant specific torque: {norm(tau):.2f}')
             print(f'Max thrust to weight: {norm(f_max)/G:.2f}')
@@ -177,6 +178,7 @@ class Hover:
             f_max = self.Bf @ (self.w_hat_max)**2
             
             print(f'Optimum input = {self.u}')
+            print(f'Thrust vector direction: {f/norm(f)}')
             print(f'Resultant specific force: {norm(f):.2f}')
             print(f'Resultant specific torque: {norm(tau):.2f}')
             print(f"Force-torque cross product norm: {norm(np.cross(f,tau)):.5f}")

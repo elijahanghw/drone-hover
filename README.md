@@ -28,9 +28,9 @@ Propeller properties are defined using dictionaries, and require the following k
 Example: 
 
     props = [{"loc":[1, 1, 0], "dir": [0, 0, -1, "ccw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
-                  {"loc":[-1, 1, 0], "dir": [0, 0, -1, "cw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
-                  {"loc":[-1, -1, 0], "dir": [0, 0, -1, "ccw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
-                  {"loc":[1, -1 0], "dir": [0, 0, -1, "cw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927}]
+             {"loc":[-1, 1, 0], "dir": [0, 0, -1, "cw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+             {"loc":[-1, -1, 0], "dir": [0, 0, -1, "ccw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+             {"loc":[1, -1 0], "dir": [0, 0, -1, "cw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927}]
 
 There are 2 ways to define the drone body.
 1. Creating a class that follows the format as seen in `drone_hover.standard_bodies`.
