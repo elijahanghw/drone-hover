@@ -1,7 +1,6 @@
-from drone_hover.standard_bodies import Quadcopter, Tricopter, Hexacopter, Octacopter
-from drone_hover.custom_bodies import Custombody, Biquadcopter, Dualquad
+from dronehover.bodies.standard_bodies import Quadcopter
 
-from drone_hover.optimization import Hover
+from dronehover.optimization import Hover
 
 if __name__ == "__main__":
     # Import drone body

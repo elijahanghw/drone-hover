@@ -1,12 +1,22 @@
-# drone-hover
+# dronehover
 
 Compute the hovering capabilities of drones with arbitrary configurations.
 
 **Updates**:
 
+[28 May 2024]
+1. Packaged library - dronehover
+2. Changed definition of propeller direction to `"ccw"` or `"cw"`.
+
 [20 May 2024]
 1. Motor commands are now proportionate to the square of motor RPM.
 2. Propeller forces are now defined using force and moment constants rather than maximum thrust and moments.
+
+## Installation
+Create a virtual environment and run `pip install .`
+
+Run example `python3 examples/hover_quad.py` to test.
+
 
 ## Defining drone bodies
 The drone has a body-fixed coordinate system which follows the right-handed convention ($x$ axis pointing to the front, $y$ axis pointing to the right, and $z$ axis pointing down). Propeller positions and directions are defined using this coordinate system. The C.G. of the drone may not necessarily coincide with the origin of the coordinate system, and needs to be defined.
