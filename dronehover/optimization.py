@@ -118,6 +118,7 @@ class Hover:
             self.w_hat_max = self.u_to_w(self.u_max)
             
             self.f_max = self.Bf @ (self.w_hat_max)**2
+            self.alpha = norm(self.f_max)/G
             
             if verbose:
                 print("----------Static Hover Achieved----------")
@@ -125,7 +126,7 @@ class Hover:
                 print(f'Thrust vector direction: {f/norm(f)}')
                 print(f'Resultant specific force: {norm(f):.2f}')
                 print(f'Resultant specific torque: {norm(self.tau):.2f}')
-                print(f'Max thrust to weight: {norm(self.f_max)/G:.2f}')
+                print(f'Max thrust to weight: {self.alpha:.2f}')
                 print(f"Input cost: {self.input_cost:.5f}")
 
         else:
@@ -187,6 +188,8 @@ class Hover:
             
             self.f_max = self.Bf @ (self.w_hat_max)**2
             
+            self.alpha = norm(self.f_max)/G
+            
             if verbose:
                 print("----------Spinning Hover Achieved----------")
                 print(f'Optimum input = {self.u}')
@@ -194,7 +197,7 @@ class Hover:
                 print(f'Resultant specific force: {norm(f):.2f}')
                 print(f'Resultant specific torque: {norm(self.tau):.2f}')
                 print(f"Force-torque cross product norm: {norm(np.cross(f,self.tau)):.5f}")
-                print(f'Max thrust to weight: {norm(self.f_max)/G:.2f}')
+                print(f'Max thrust to weight: {self.alpha:.2f}')
                 print(f"Input cost: {self.input_cost}")
             
         else:
@@ -204,6 +207,7 @@ class Hover:
             f = self.Bf @ self.eta
             self.tau = self.Bm @ self.eta
             self.input_cost = None
+            self.alpha = None
             
             if verbose:
                 print("----------Drone Cannot Hover----------")
