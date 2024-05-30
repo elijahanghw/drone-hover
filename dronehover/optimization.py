@@ -106,6 +106,7 @@ class Hover:
         
         # Checking if no torque configuration can achieve sufficient thrust
         if static_hover.success == True:
+            self.hover_status = "ST"
             self.eta = static_hover.x
             self.w_hat = np.sqrt(self.eta)
             self.u = self.w_to_u(self.w_hat)
@@ -169,8 +170,11 @@ class Hover:
         with warnings.catch_warnings():
             warnings.filterwarnings("ignore", message="Values in x were outside bounds")
             spinning_hover = minimize(objective_function, eta0, constraints=cons, bounds=bnds, method='SLSQP', options=opt)
-            
+        
+        self.spinning_success = spinning_hover.success
+        
         if spinning_hover.success == True:
+            self.hover_status = "SP"
             self.eta = spinning_hover.x
             self.w_hat = np.sqrt(self.eta)
             self.u = self.w_to_u(self.w_hat)
@@ -194,6 +198,7 @@ class Hover:
                 print(f"Input cost: {input_cost}")
             
         else:
+            self.hover_status = "N"
             self.eta = spinning_hover.x
             self.u = np.sqrt(self.eta)
             f = self.Bf @ self.eta
