@@ -66,7 +66,7 @@ class Hover:
         """        
         self.static(verbose)
         if self.static_success == False:
-            self.spinning()
+            self.spinning(verbose)
         
             
     def static(self, verbose):
