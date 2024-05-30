@@ -97,7 +97,7 @@ class Hover:
         bnds = []
         for i in range(self.control_limits.shape[0]):
             bnds.append((self.w_hat_bounds[0]**2, self.w_hat_bounds[1]**2)) 
-        opt = {'maxiter':200, 'ftol':1e-5}
+        opt = {'maxiter':200}
         
         with warnings.catch_warnings():
             warnings.filterwarnings("ignore", message="Values in x were outside bounds")
@@ -167,7 +167,7 @@ class Hover:
         bnds = []
         for i in range(self.control_limits.shape[0]):
             bnds.append((self.w_hat_bounds[0]**2, self.w_hat_bounds[1]**2)) 
-        opt = {'maxiter':1000, 'ftol':1e-4}
+        opt = {'maxiter':1000, 'ftol':1e-3}
         
         with warnings.catch_warnings():
             warnings.filterwarnings("ignore", message="Values in x were outside bounds")
