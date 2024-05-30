@@ -96,7 +96,7 @@ class Hover:
         bnds = []
         for i in range(self.control_limits.shape[0]):
             bnds.append((self.w_hat_bounds[0]**2, self.w_hat_bounds[1]**2)) 
-        opt = {'maxiter':200}
+        opt = {'maxiter':100}
         
         with warnings.catch_warnings():
             warnings.filterwarnings("ignore", message="Values in x were outside bounds")
@@ -111,22 +111,22 @@ class Hover:
             self.w_hat = np.sqrt(self.eta)
             self.u = self.w_to_u(self.w_hat)
             f = self.Bf @ self.eta
-            tau = self.Bm @ self.eta
-            input_cost = self.eta.T @ self.eta
+            self.tau = self.Bm @ self.eta
+            self.input_cost = self.eta.T @ self.eta
             
             self.u_max = self.u / max(self.u)
             self.w_hat_max = self.u_to_w(self.u_max)
             
-            f_max = self.Bf @ (self.w_hat_max)**2
+            self.f_max = self.Bf @ (self.w_hat_max)**2
             
             if verbose:
                 print("----------Static Hover Achieved----------")
                 print(f'Optimum input = {self.u}')
                 print(f'Thrust vector direction: {f/norm(f)}')
                 print(f'Resultant specific force: {norm(f):.2f}')
-                print(f'Resultant specific torque: {norm(tau):.2f}')
-                print(f'Max thrust to weight: {norm(f_max)/G:.2f}')
-                print(f"Input cost: {input_cost:.5f}")
+                print(f'Resultant specific torque: {norm(self.tau):.2f}')
+                print(f'Max thrust to weight: {norm(self.f_max)/G:.2f}')
+                print(f"Input cost: {self.input_cost:.5f}")
 
         else:
             if verbose:
@@ -165,7 +165,7 @@ class Hover:
         bnds = []
         for i in range(self.control_limits.shape[0]):
             bnds.append((self.w_hat_bounds[0]**2, self.w_hat_bounds[1]**2)) 
-        opt = {'maxiter':200}
+        opt = {'maxiter':100}
         
         with warnings.catch_warnings():
             warnings.filterwarnings("ignore", message="Values in x were outside bounds")
@@ -179,37 +179,37 @@ class Hover:
             self.w_hat = np.sqrt(self.eta)
             self.u = self.w_to_u(self.w_hat)
             f = self.Bf @ self.eta
-            tau = self.Bm @ self.eta
-            input_cost = self.eta.T @ self.eta
+            self.tau = self.Bm @ self.eta
+            self.input_cost = self.eta.T @ self.eta
             
             self.u_max = self.u / max(self.u)
             self.w_hat_max = self.u_to_w(self.u_max)
             
-            f_max = self.Bf @ (self.w_hat_max)**2
+            self.f_max = self.Bf @ (self.w_hat_max)**2
             
             if verbose:
                 print("----------Spinning Hover Achieved----------")
                 print(f'Optimum input = {self.u}')
                 print(f'Thrust vector direction: {f/norm(f)}')
                 print(f'Resultant specific force: {norm(f):.2f}')
-                print(f'Resultant specific torque: {norm(tau):.2f}')
-                print(f"Force-torque cross product norm: {norm(np.cross(f,tau)):.5f}")
-                print(f'Max thrust to weight: {norm(f_max)/G:.2f}')
-                print(f"Input cost: {input_cost}")
+                print(f'Resultant specific torque: {norm(self.tau):.2f}')
+                print(f"Force-torque cross product norm: {norm(np.cross(f,self.tau)):.5f}")
+                print(f'Max thrust to weight: {norm(self.f_max)/G:.2f}')
+                print(f"Input cost: {self.input_cost}")
             
         else:
             self.hover_status = "N"
             self.eta = spinning_hover.x
             self.u = np.sqrt(self.eta)
             f = self.Bf @ self.eta
-            tau = self.Bm @ self.eta
+            self.tau = self.Bm @ self.eta
             
             if verbose:
                 print("----------Drone Cannot Hover----------")
                 print(f'Best input = {self.u}')
                 print(f'Resultant specific force: {norm(f):.2f}')
-                print(f'Resultant specific torque: {norm(tau):.2f}')
-                print(f"Force-torque cross product norm: {norm(np.cross(f,tau)):.5f}")
+                print(f'Resultant specific torque: {norm(self.tau):.2f}')
+                print(f"Force-torque cross product norm: {norm(np.cross(f,self.tau)):.5f}")
             
             
     def drone_checker(self):
