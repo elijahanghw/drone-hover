@@ -4,12 +4,12 @@ from numpy import sin, cos, pi
 class Quadcopter:
     def __init__(self, length):
         # Inertia properties
-        self.mass = 1
+        self.mass = 0.5
         self.cg = [0, 0, 0]
 
-        self.Ix = 1
-        self.Iy = 1
-        self.Iz = 1
+        self.Ix = 0.1
+        self.Iy = 0.1
+        self.Iz = 0.3
 
         self.Ixy = 0
         self.Ixz = 0
