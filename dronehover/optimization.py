@@ -203,6 +203,7 @@ class Hover:
             self.u = np.sqrt(self.eta)
             f = self.Bf @ self.eta
             self.tau = self.Bm @ self.eta
+            self.input_cost = None
             
             if verbose:
                 print("----------Drone Cannot Hover----------")
