@@ -11,9 +11,9 @@ if __name__ == "__main__":
                       {"loc":[cos(3/4*pi), sin(3/4*pi), 0], "dir": [0, 0, -1, "cw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
                       {"loc":[cos(5/4*pi), sin(5/4*pi), 0], "dir": [0, 0, -1, "ccw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
                       {"loc":[cos(7/4*pi), sin(7/4*pi), 0], "dir": [0, 0, -1, "cw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
-                      {"loc":[-1, 0, 0], "dir": [1, 0, 0, "cw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
-                      {"loc":[-1, 0, 0], "dir": [1, 0, 0, "ccw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
-                      {"loc":[-1, 0, 0], "dir": [1, 0, 0, "cw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927}]
+                      {"loc":[1, 0, 1], "dir": [1, 0, 0, "cw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                      {"loc":[0, 0, 0], "dir": [1, 0, 0, "ccw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
+                      {"loc":[0, 0, 0], "dir": [1, 0, 0, "cw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927}]
     
     mass = 1
     cg = [0,0,0]

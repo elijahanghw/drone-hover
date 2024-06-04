@@ -52,6 +52,15 @@ class Hover:
         self.Bf = inv(m) @ self.Bf
         
         self.Bm = inv(I) @ self.Bm
+        
+        self.rank_f = np.linalg.matrix_rank(self.Bf)
+        self.rank_m = np.linalg.matrix_rank(self.Bm)
+        
+        self.gram_f = self.Bf @ self.Bf.T
+        self.gram_m = self.Bm @ self.Bm.T
+        
+        self.eig_f, _ = np.linalg.eig(self.gram_f)
+        self.eig_m, _ = np.linalg.eig(self.gram_m)
 
         self.W = np.eye(self.num_props)
         
@@ -128,6 +137,8 @@ class Hover:
                 print(f'Resultant specific force: {norm(f):.2f}')
                 print(f'Resultant specific torque: {norm(self.tau):.2f}')
                 print(f'Max thrust to weight: {self.alpha:.2f}')
+                print(f'Moments rank: {self.rank_m}')
+                print(f'Moments gram eig: {self.eig_m}')
                 print(f"Input cost: {self.input_cost:.5f}")
 
         else:
@@ -199,6 +210,8 @@ class Hover:
                 print(f'Resultant specific torque: {norm(self.tau):.2f}')
                 print(f"Force-torque cross product norm: {norm(np.cross(f,self.tau)):.5f}")
                 print(f'Max thrust to weight: {self.alpha:.2f}')
+                print(f'Moments rank: {self.rank_m}')
+                print(f'Moments gram eig: {self.eig_m}')
                 print(f"Input cost: {self.input_cost}")
             
         else:
