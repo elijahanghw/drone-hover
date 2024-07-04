@@ -237,7 +237,7 @@ class Hover:
         Raises:
             KeyError: Required key in propellers dictionary missing.
         """        
-        keys = ["loc", "dir", "constants", "wmax"]
+        keys = ["loc", "dir", "propsize"]
         for i, prop in enumerate(self.drone.props):
             for key in keys:
                 if key in prop.keys():

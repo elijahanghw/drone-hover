@@ -31,16 +31,14 @@ Propeller properties are defined using dictionaries, and require the following k
 
 `"dir":[x,y,z,r]`: List that defines the direction of thrust and rotation for the propeller. Includes 4 numbers, first 3 numbers are the $(x,y,z)$ vector defining the thrust direction, and the entry indicates counterclockwise (ccw) or clockwise (cw) rotation (as viewed from the top of the propeller). Direction $(x,y,z)$ does not need to be unit vector as the optimizer will scale it automatically.
 
-`"constants":[k_f, k_m]`: Thrust and moment constant for the propeller.
-
-`"wmax": wmax`: Maximum rotational speed (rad/s) for propeller.
+`"propsize`: Size of propeller in inches. Propeller constants and motor mass extracted from a propeller library.
 
 Example: 
 
-    props = [{"loc":[1, 1, 0], "dir": [0, 0, -1, "ccw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
-             {"loc":[-1, 1, 0], "dir": [0, 0, -1, "cw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
-             {"loc":[-1, -1, 0], "dir": [0, 0, -1, "ccw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
-             {"loc":[1, -1 0], "dir": [0, 0, -1, "cw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927}]
+    self.props = [{"loc":[length*cos(1/4*pi), length*sin(1/4*pi), 0], "dir": [0, 0, -1, "ccw"], "propsize": 4},
+                      {"loc":[length*cos(3/4*pi), length*sin(3/4*pi), 0], "dir": [0, 0, -1, "cw"], "propsize": 4},
+                      {"loc":[length*cos(5/4*pi), length*sin(5/4*pi), 0], "dir": [0, 0, -1, "ccw"], "propsize": 4},
+                      {"loc":[length*cos(7/4*pi), length*sin(7/4*pi), 0], "dir": [0, 0, -1, "cw"], "propsize": 4}]
 
 There are 2 ways to define the drone body.
 1. Creating a class that follows the format as seen in `drone_hover.standard_bodies`.
@@ -49,7 +47,11 @@ There are 2 ways to define the drone body.
 Example:
 
     from drone_hover.custom_bodies import Custombody
-    drone = Custombody(self, mass, cg, Ix, Iy, Iz, Ixy, Ixz, Iyz, props)
+    drone = Custombody(props)
+
+## Propeller Library
+
+The propeller constants are compiled into a library (dictionary) and can be found in the `__init__.py` file.
 
 ## Propeller Commands
 
