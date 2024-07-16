@@ -23,7 +23,7 @@ class Custombody:
         self.get_inertia()
 
     def get_inertia(self):
-        controller_mass = 0.3 # based on 4S, 3200 mAh lipo
+        controller_mass = 0.177 # based on 4S, 1600 mAh lipo
         beam_density = 1650*0.005*0.01 # kg/m, carbon fiber plates, 5mm thickness, 10mm width
 
         self.mass = controller_mass # + prop_mass*len(self.props)
@@ -36,9 +36,9 @@ class Custombody:
             self.mass += prop_mass
             self.cg += prop_mass/self.mass * np.array(prop["loc"])
 
-        self.Ix = norm(np.cross(np.array([1,0,0]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.045**2 + 0.029**2)
-        self.Iy = norm(np.cross(np.array([0,1,0]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.139**2 + 0.029**2)
-        self.Iz = norm(np.cross(np.array([0,0,1]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.139**2 + 0.045**2)
+        self.Ix = norm(np.cross(np.array([1,0,0]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.035**2 + 0.025**2)
+        self.Iy = norm(np.cross(np.array([0,1,0]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.090**2 + 0.025**2)
+        self.Iz = norm(np.cross(np.array([0,0,1]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.090**2 + 0.035**2)
 
         for prop in self.props:
             size = prop["propsize"]
