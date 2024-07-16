@@ -36,9 +36,9 @@ class Custombody:
             self.mass += prop_mass
             self.cg += prop_mass/self.mass * np.array(prop["loc"])
 
-        self.Ix = norm(np.cross(np.array([1,0,0]),self.cg))**2 * controller_mass
-        self.Iy = norm(np.cross(np.array([0,1,0]),self.cg))**2 * controller_mass
-        self.Iz = norm(np.cross(np.array([0,0,1]),self.cg))**2 * controller_mass
+        self.Ix = norm(np.cross(np.array([1,0,0]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.045**2 + 0.029**2)
+        self.Iy = norm(np.cross(np.array([0,1,0]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.139**2 + 0.029**2)
+        self.Iz = norm(np.cross(np.array([0,0,1]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.139**2 + 0.045**2)
 
         for prop in self.props:
             size = prop["propsize"]
