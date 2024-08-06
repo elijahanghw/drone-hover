@@ -27,7 +27,7 @@ class Quadcopter:
 
     def get_inertia(self):
         controller_mass = 0.250 # based on 4S, 2200 mAh lipo
-        beam_density = 1650*0.005*0.01 # kg/m, carbon fiber plates, 5mm thickness, 10mm width
+        beam_density = 1500*0.005*0.01 # kg/m, carbon fiber plates, 5mm thickness, 10mm width
 
         self.mass = controller_mass # + prop_mass*len(self.props)
 
@@ -48,8 +48,8 @@ class Quadcopter:
             prop_mass = prop_lib[f"prop{size}"]["mass"]
             r = np.asarray(prop["loc"]) - self.cg
             self.Ix += norm(np.cross(np.array([1,0,0]),r))**2  * prop_mass
-            self.Iy += norm(np.cross(np.array([1,0,0]),r))**2 * prop_mass
-            self.Iz += norm(np.cross(np.array([1,0,0]),r))**2 * prop_mass
+            self.Iy += norm(np.cross(np.array([0,1,0]),r))**2 * prop_mass
+            self.Iz += norm(np.cross(np.array([0,0,1]),r))**2 * prop_mass
 
         self.cg = self.cg.tolist()
 
@@ -78,7 +78,7 @@ class Tricopter:
 
     def get_inertia(self):
         controller_mass = 0.250 # based on 4S, 2200 mAh lipo
-        beam_density = 1650*0.005*0.01 # kg/m, carbon fiber plates, 5mm thickness, 10mm width
+        beam_density = 1500*0.005*0.01 # kg/m, carbon fiber plates, 5mm thickness, 10mm width
 
         self.mass = controller_mass # + prop_mass*len(self.props)
 
@@ -99,8 +99,8 @@ class Tricopter:
             prop_mass = prop_lib[f"prop{size}"]["mass"]
             r = np.asarray(prop["loc"]) - self.cg
             self.Ix += norm(np.cross(np.array([1,0,0]),r))**2  * prop_mass
-            self.Iy += norm(np.cross(np.array([1,0,0]),r))**2 * prop_mass
-            self.Iz += norm(np.cross(np.array([1,0,0]),r))**2 * prop_mass
+            self.Iy += norm(np.cross(np.array([0,1,0]),r))**2 * prop_mass
+            self.Iz += norm(np.cross(np.array([0,0,1]),r))**2 * prop_mass
 
         self.cg = self.cg.tolist()
 
@@ -132,7 +132,7 @@ class Hexacopter:
 
     def get_inertia(self):
         controller_mass = 0.250 # based on 4S, 2200 mAh lipo
-        beam_density = 1650*0.005*0.01 # kg/m, carbon fiber plates, 5mm thickness, 10mm width
+        beam_density = 1500*0.005*0.01 # kg/m, carbon fiber plates, 5mm thickness, 10mm width
 
         self.mass = controller_mass # + prop_mass*len(self.props)
 
@@ -153,8 +153,8 @@ class Hexacopter:
             prop_mass = prop_lib[f"prop{size}"]["mass"]
             r = np.asarray(prop["loc"]) - self.cg
             self.Ix += norm(np.cross(np.array([1,0,0]),r))**2  * prop_mass
-            self.Iy += norm(np.cross(np.array([1,0,0]),r))**2 * prop_mass
-            self.Iz += norm(np.cross(np.array([1,0,0]),r))**2 * prop_mass
+            self.Iy += norm(np.cross(np.array([0,1,0]),r))**2 * prop_mass
+            self.Iz += norm(np.cross(np.array([0,0,1]),r))**2 * prop_mass
 
         self.cg = self.cg.tolist()
 
@@ -187,7 +187,7 @@ class Octacopter:
 
     def get_inertia(self):
         controller_mass = 0.250 # based on 4S, 2200 mAh lipo
-        beam_density = 1650*0.005*0.01 # kg/m, carbon fiber plates, 5mm thickness, 10mm width
+        beam_density = 1500*0.005*0.01 # kg/m, carbon fiber plates, 5mm thickness, 10mm width
 
         self.mass = controller_mass # + prop_mass*len(self.props)
 
@@ -208,8 +208,8 @@ class Octacopter:
             prop_mass = prop_lib[f"prop{size}"]["mass"]
             r = np.asarray(prop["loc"]) - self.cg
             self.Ix += norm(np.cross(np.array([1,0,0]),r))**2  * prop_mass
-            self.Iy += norm(np.cross(np.array([1,0,0]),r))**2 * prop_mass
-            self.Iz += norm(np.cross(np.array([1,0,0]),r))**2 * prop_mass
+            self.Iy += norm(np.cross(np.array([0,1,0]),r))**2 * prop_mass
+            self.Iz += norm(np.cross(np.array([0,0,1]),r))**2 * prop_mass
 
         self.cg = self.cg.tolist()
 
