@@ -46,10 +46,20 @@ class Quadcopter:
         for prop in self.props:
             size = prop["propsize"]
             prop_mass = prop_lib[f"prop{size}"]["mass"]
-            r = np.asarray(prop["loc"]) - self.cg
-            self.Ix += norm(np.cross(np.array([1,0,0]),r))**2  * prop_mass
+            pos = np.asarray(prop["loc"])
+            r = pos - self.cg
+
+            self.Ix += norm(np.cross(np.array([1,0,0]),r))**2  * prop_mass      # I due to motors
+            self.Ix += 1/12 * norm(np.cross(np.array([1,0,0]), pos))**2 * beam_density*norm(pos)    # I due to beam
+            self.Ix += beam_density*norm(pos) * norm(np.cross(np.array([1,0,0]), (pos/2 - self.cg)))**2     # I due to parallel axis theorem
+
             self.Iy += norm(np.cross(np.array([0,1,0]),r))**2 * prop_mass
+            self.Iy += 1/12 * norm(np.cross(np.array([0,1,0]), pos))**2 * beam_density*norm(pos) 
+            self.Iy += beam_density*norm(pos) * norm(np.cross(np.array([0,1,0]), (pos/2 - self.cg)))**2
+
             self.Iz += norm(np.cross(np.array([0,0,1]),r))**2 * prop_mass
+            self.Iz += 1/12 * norm(np.cross(np.array([0,0,1]), pos))**2 * beam_density*norm(pos)
+            self.Iz += beam_density*norm(pos) * norm(np.cross(np.array([0,0,1]), (pos/2 - self.cg)))**2
 
         self.cg = self.cg.tolist()
 
@@ -97,10 +107,20 @@ class Tricopter:
         for prop in self.props:
             size = prop["propsize"]
             prop_mass = prop_lib[f"prop{size}"]["mass"]
-            r = np.asarray(prop["loc"]) - self.cg
-            self.Ix += norm(np.cross(np.array([1,0,0]),r))**2  * prop_mass
+            pos = np.asarray(prop["loc"])
+            r = pos - self.cg
+
+            self.Ix += norm(np.cross(np.array([1,0,0]),r))**2  * prop_mass      # I due to motors
+            self.Ix += 1/12 * norm(np.cross(np.array([1,0,0]), pos))**2 * beam_density*norm(pos)    # I due to beam
+            self.Ix += beam_density*norm(pos) * norm(np.cross(np.array([1,0,0]), (pos/2 - self.cg)))**2     # I due to parallel axis theorem
+
             self.Iy += norm(np.cross(np.array([0,1,0]),r))**2 * prop_mass
+            self.Iy += 1/12 * norm(np.cross(np.array([0,1,0]), pos))**2 * beam_density*norm(pos) 
+            self.Iy += beam_density*norm(pos) * norm(np.cross(np.array([0,1,0]), (pos/2 - self.cg)))**2
+
             self.Iz += norm(np.cross(np.array([0,0,1]),r))**2 * prop_mass
+            self.Iz += 1/12 * norm(np.cross(np.array([0,0,1]), pos))**2 * beam_density*norm(pos)
+            self.Iz += beam_density*norm(pos) * norm(np.cross(np.array([0,0,1]), (pos/2 - self.cg)))**2
 
         self.cg = self.cg.tolist()
 
@@ -151,10 +171,20 @@ class Hexacopter:
         for prop in self.props:
             size = prop["propsize"]
             prop_mass = prop_lib[f"prop{size}"]["mass"]
-            r = np.asarray(prop["loc"]) - self.cg
-            self.Ix += norm(np.cross(np.array([1,0,0]),r))**2  * prop_mass
+            pos = np.asarray(prop["loc"])
+            r = pos - self.cg
+
+            self.Ix += norm(np.cross(np.array([1,0,0]),r))**2  * prop_mass      # I due to motors
+            self.Ix += 1/12 * norm(np.cross(np.array([1,0,0]), pos))**2 * beam_density*norm(pos)    # I due to beam
+            self.Ix += beam_density*norm(pos) * norm(np.cross(np.array([1,0,0]), (pos/2 - self.cg)))**2     # I due to parallel axis theorem
+
             self.Iy += norm(np.cross(np.array([0,1,0]),r))**2 * prop_mass
+            self.Iy += 1/12 * norm(np.cross(np.array([0,1,0]), pos))**2 * beam_density*norm(pos) 
+            self.Iy += beam_density*norm(pos) * norm(np.cross(np.array([0,1,0]), (pos/2 - self.cg)))**2
+
             self.Iz += norm(np.cross(np.array([0,0,1]),r))**2 * prop_mass
+            self.Iz += 1/12 * norm(np.cross(np.array([0,0,1]), pos))**2 * beam_density*norm(pos)
+            self.Iz += beam_density*norm(pos) * norm(np.cross(np.array([0,0,1]), (pos/2 - self.cg)))**2
 
         self.cg = self.cg.tolist()
 
@@ -206,10 +236,20 @@ class Octacopter:
         for prop in self.props:
             size = prop["propsize"]
             prop_mass = prop_lib[f"prop{size}"]["mass"]
-            r = np.asarray(prop["loc"]) - self.cg
-            self.Ix += norm(np.cross(np.array([1,0,0]),r))**2  * prop_mass
+            pos = np.asarray(prop["loc"])
+            r = pos - self.cg
+
+            self.Ix += norm(np.cross(np.array([1,0,0]),r))**2  * prop_mass      # I due to motors
+            self.Ix += 1/12 * norm(np.cross(np.array([1,0,0]), pos))**2 * beam_density*norm(pos)    # I due to beam
+            self.Ix += beam_density*norm(pos) * norm(np.cross(np.array([1,0,0]), (pos/2 - self.cg)))**2     # I due to parallel axis theorem
+
             self.Iy += norm(np.cross(np.array([0,1,0]),r))**2 * prop_mass
+            self.Iy += 1/12 * norm(np.cross(np.array([0,1,0]), pos))**2 * beam_density*norm(pos) 
+            self.Iy += beam_density*norm(pos) * norm(np.cross(np.array([0,1,0]), (pos/2 - self.cg)))**2
+
             self.Iz += norm(np.cross(np.array([0,0,1]),r))**2 * prop_mass
+            self.Iz += 1/12 * norm(np.cross(np.array([0,0,1]), pos))**2 * beam_density*norm(pos)
+            self.Iz += beam_density*norm(pos) * norm(np.cross(np.array([0,0,1]), (pos/2 - self.cg)))**2
 
         self.cg = self.cg.tolist()
 
