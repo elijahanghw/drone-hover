@@ -124,8 +124,9 @@ class Hover:
             self.tau = self.Bm @ self.eta
             self.input_cost = self.eta.T @ self.eta
             
-            self.u_max = self.u / max(self.u)
-            self.w_hat_max = self.u_to_w(self.u_max)
+            # self.u_max = self.u / max(self.u)
+            # self.w_hat_max = self.u_to_w(self.u_max)
+            self.w_hat_max = self.w_hat / max(self.w_hat)
             
             self.f_max = self.Bf @ (self.w_hat_max)**2
             self.alpha = norm(self.f_max)/G
@@ -195,8 +196,9 @@ class Hover:
             self.tau = self.Bm @ self.eta
             self.input_cost = self.eta.T @ self.eta
             
-            self.u_max = self.u / max(self.u)
-            self.w_hat_max = self.u_to_w(self.u_max)
+            # self.u_max = self.u / max(self.u)
+            # self.w_hat_max = self.u_to_w(self.u_max)
+            self.w_hat_max = self.w_hat / max(self.w_hat)
             
             self.f_max = self.Bf @ (self.w_hat_max)**2
             
