@@ -89,7 +89,8 @@ class Hover:
         A = self.Bf.T @ self.Bf
         
         # Defining eta as a shorthand (eta = w_hat**2)
-        eta0 = np.random.uniform(low=self.w_hat_bounds[0]**2, high=self.w_hat_bounds[1]**2, size=self.num_props)
+        # eta0 = np.random.uniform(low=self.w_hat_bounds[0]**2, high=self.w_hat_bounds[1]**2, size=self.num_props)
+        eta0 = 0.5*np.ones(self.num_props)
         
         def objective_function(eta):
             return eta.T @ eta
@@ -157,7 +158,8 @@ class Hover:
         
         # Defining eta as a shorthand (eta = u**2)
         # Somehow if values of u are all equal it does not work
-        eta0 = np.random.uniform(low=self.w_hat_bounds[0]**2, high=self.w_hat_bounds[1]**2, size=self.num_props)
+        # eta0 = np.random.uniform(low=self.w_hat_bounds[0]**2, high=self.w_hat_bounds[1]**2, size=self.num_props)
+        eta0 = 0.5*np.ones(self.num_props)
         
         def objective_function(eta):
             return eta.T @ eta
