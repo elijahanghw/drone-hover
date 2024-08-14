@@ -4,7 +4,7 @@ from dronehover.optimization import Hover
 
 if __name__ == "__main__":
     # Import drone body
-    length = 0.09
+    length = 0.110
     drone = Quadcopter(length)
     # print(drone.Iz)
 

@@ -31,13 +31,19 @@ class Quadcopter:
 
         self.mass = controller_mass # + prop_mass*len(self.props)
 
-        self.cg = np.zeros(3)
+        
         for prop in self.props:
             size = prop["propsize"]
             prop_mass = prop_lib[f"prop{size}"]["mass"]
             self.mass += beam_density*np.linalg.norm(np.array(prop["loc"])) # Add mass of carbon beam
             self.mass += prop_mass
+
+        self.cg = np.zeros(3)
+        for prop in self.props:
+            prop_mass = prop_lib[f"prop{size}"]["mass"]
+            beam_mass = beam_density*np.linalg.norm(np.array(prop["loc"]))
             self.cg += prop_mass/self.mass * np.array(prop["loc"])
+            self.cg += beam_mass/self.mass * np.array(prop["loc"]) * 0.5
 
         self.Ix = norm(np.cross(np.array([1,0,0]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.036**2 + 0.035**2)
         self.Iy = norm(np.cross(np.array([0,1,0]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.105**2 + 0.035**2)
@@ -92,13 +98,18 @@ class Tricopter:
 
         self.mass = controller_mass # + prop_mass*len(self.props)
 
-        self.cg = np.zeros(3)
         for prop in self.props:
             size = prop["propsize"]
             prop_mass = prop_lib[f"prop{size}"]["mass"]
             self.mass += beam_density*np.linalg.norm(np.array(prop["loc"])) # Add mass of carbon beam
             self.mass += prop_mass
+
+        self.cg = np.zeros(3)
+        for prop in self.props:
+            prop_mass = prop_lib[f"prop{size}"]["mass"]
+            beam_mass = beam_density*np.linalg.norm(np.array(prop["loc"]))
             self.cg += prop_mass/self.mass * np.array(prop["loc"])
+            self.cg += beam_mass/self.mass * np.array(prop["loc"]) * 0.5
 
         self.Ix = norm(np.cross(np.array([1,0,0]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.036**2 + 0.035**2)
         self.Iy = norm(np.cross(np.array([0,1,0]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.105**2 + 0.035**2)
@@ -156,13 +167,18 @@ class Hexacopter:
 
         self.mass = controller_mass # + prop_mass*len(self.props)
 
-        self.cg = np.zeros(3)
         for prop in self.props:
             size = prop["propsize"]
             prop_mass = prop_lib[f"prop{size}"]["mass"]
             self.mass += beam_density*np.linalg.norm(np.array(prop["loc"])) # Add mass of carbon beam
             self.mass += prop_mass
+
+        self.cg = np.zeros(3)
+        for prop in self.props:
+            prop_mass = prop_lib[f"prop{size}"]["mass"]
+            beam_mass = beam_density*np.linalg.norm(np.array(prop["loc"]))
             self.cg += prop_mass/self.mass * np.array(prop["loc"])
+            self.cg += beam_mass/self.mass * np.array(prop["loc"]) * 0.5
 
         self.Ix = norm(np.cross(np.array([1,0,0]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.036**2 + 0.035**2)
         self.Iy = norm(np.cross(np.array([0,1,0]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.105**2 + 0.035**2)
@@ -221,13 +237,18 @@ class Octacopter:
 
         self.mass = controller_mass # + prop_mass*len(self.props)
 
-        self.cg = np.zeros(3)
         for prop in self.props:
             size = prop["propsize"]
             prop_mass = prop_lib[f"prop{size}"]["mass"]
             self.mass += beam_density*np.linalg.norm(np.array(prop["loc"])) # Add mass of carbon beam
             self.mass += prop_mass
+
+        self.cg = np.zeros(3)
+        for prop in self.props:
+            prop_mass = prop_lib[f"prop{size}"]["mass"]
+            beam_mass = beam_density*np.linalg.norm(np.array(prop["loc"]))
             self.cg += prop_mass/self.mass * np.array(prop["loc"])
+            self.cg += beam_mass/self.mass * np.array(prop["loc"]) * 0.5
 
         self.Ix = norm(np.cross(np.array([1,0,0]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.036**2 + 0.035**2)
         self.Iy = norm(np.cross(np.array([0,1,0]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.105**2 + 0.035**2)

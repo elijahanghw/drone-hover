@@ -48,7 +48,6 @@ class Hover:
             self.Bm[:,idx] = (np.cross(prop_r[0,:], k_f*w_max**2*prop_dir[0,:])
                             + k_m*w_max**2*prop_rot*prop_dir[0,:]).T
             
-            
         self.Bf = inv(m) @ self.Bf
         
         self.Bm = inv(I) @ self.Bm
@@ -107,7 +106,7 @@ class Hover:
         bnds = []
         for i in range(self.control_limits.shape[0]):
             bnds.append((self.w_hat_bounds[0]**2, self.w_hat_bounds[1]**2)) 
-        opt = {'maxiter':1000}
+        opt = {'maxiter':1000, 'ftol':5e-4}
         
         with warnings.catch_warnings():
             warnings.filterwarnings("ignore", message="Values in x were outside bounds")
