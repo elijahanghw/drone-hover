@@ -64,9 +64,9 @@ class Custombody:
             self.Iz += 1/12 * norm(np.cross(np.array([0,0,1]), pos))**2 * beam_density*norm(pos)
             self.Iz += beam_density*norm(pos) * norm(np.cross(np.array([0,0,1]), (pos/2 - self.cg)))**2
 
-            self.Ixy += r[0]*r[1]*prop_mass
-            self.Ixy += 1/12 * r[0]*r[1] * beam_density*norm(pos)
-            self.Ixy += beam_density*norm(pos) * (pos[0]/2 - self.cg[0])*(pos[1]/2 - self.cg[1])
+            self.Ixy -= r[0]*r[1]*prop_mass
+            self.Ixy -= 1/12 * pos[0]**2*pos[1] * beam_density
+            self.Ixy -= beam_density*norm(pos) * (pos[0]/2 - self.cg[0])*(pos[1]/2 - self.cg[1])
 
         self.cg = self.cg.tolist()
 
