@@ -49,6 +49,8 @@ class Quadcopter:
         self.Iy = norm(np.cross(np.array([0,1,0]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.105**2 + 0.035**2)
         self.Iz = norm(np.cross(np.array([0,0,1]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.105**2 + 0.036**2)
 
+        self.Ixy = 0
+
         for prop in self.props:
             size = prop["propsize"]
             prop_mass = prop_lib[f"prop{size}"]["mass"]
@@ -114,6 +116,8 @@ class Tricopter:
         self.Ix = norm(np.cross(np.array([1,0,0]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.036**2 + 0.035**2)
         self.Iy = norm(np.cross(np.array([0,1,0]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.105**2 + 0.035**2)
         self.Iz = norm(np.cross(np.array([0,0,1]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.105**2 + 0.036**2)
+
+        self.Ixy = 0
 
         for prop in self.props:
             size = prop["propsize"]
@@ -184,6 +188,8 @@ class Hexacopter:
         self.Iy = norm(np.cross(np.array([0,1,0]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.105**2 + 0.035**2)
         self.Iz = norm(np.cross(np.array([0,0,1]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.105**2 + 0.036**2)
 
+        self.Ixy = 0
+
         for prop in self.props:
             size = prop["propsize"]
             prop_mass = prop_lib[f"prop{size}"]["mass"]
@@ -253,6 +259,8 @@ class Octacopter:
         self.Ix = norm(np.cross(np.array([1,0,0]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.036**2 + 0.035**2)
         self.Iy = norm(np.cross(np.array([0,1,0]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.105**2 + 0.035**2)
         self.Iz = norm(np.cross(np.array([0,0,1]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.105**2 + 0.036**2)
+
+        self.Ixy = 0
 
         for prop in self.props:
             size = prop["propsize"]
