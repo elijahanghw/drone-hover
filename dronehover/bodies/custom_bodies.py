@@ -44,6 +44,7 @@ class Custombody:
         self.Ix = norm(np.cross(np.array([1,0,0]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.036**2 + 0.035**2)
         self.Iy = norm(np.cross(np.array([0,1,0]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.105**2 + 0.035**2)
         self.Iz = norm(np.cross(np.array([0,0,1]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.105**2 + 0.036**2)
+        self.Ixy = 0
 
         for prop in self.props:
             size = prop["propsize"]
@@ -62,6 +63,10 @@ class Custombody:
             self.Iz += norm(np.cross(np.array([0,0,1]),r))**2 * prop_mass
             self.Iz += 1/12 * norm(np.cross(np.array([0,0,1]), pos))**2 * beam_density*norm(pos)
             self.Iz += beam_density*norm(pos) * norm(np.cross(np.array([0,0,1]), (pos/2 - self.cg)))**2
+
+            self.Ixy += r[0]*r[1]*prop_mass
+            self.Ixy += 1/12 * r[0]*r[1] * beam_density*norm(pos)
+            self.Ixy += beam_density*norm(pos) * (pos[0]/2 - self.cg[0])*(pos[1]/2 - self.cg[1])
 
         self.cg = self.cg.tolist()
 

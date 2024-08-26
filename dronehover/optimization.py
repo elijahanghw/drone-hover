@@ -22,8 +22,8 @@ class Hover:
         
         cg = np.asarray(drone.cg)
         
-        I = np.array([[drone.Ix, 0, 0],
-                    [0, drone.Iy, 0],
+        I = np.array([[drone.Ix, drone.Ixy, 0],
+                    [drone.Ixy, drone.Iy, 0],
                     [0, 0, drone.Iz]])
 
         self.w_hat_bounds = np.array((0.02, 1))
