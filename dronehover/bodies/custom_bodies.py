@@ -53,11 +53,11 @@ class Custombody:
             r = pos - self.cg
 
             self.Ix += norm(np.cross(np.array([1,0,0]),r))**2  * prop_mass      # I due to motors
-            self.Ix += 1/12 * norm(np.cross(np.array([1,0,0]), pos))**2 * beam_density*norm(pos)    # I due to beam
+            self.Ix += 1/12 * norm(np.cross(np.array([1,0,0]), pos))**2 * beam_density*pos[0]    # I due to beam
             self.Ix += beam_density*norm(pos) * norm(np.cross(np.array([1,0,0]), (pos/2 - self.cg)))**2     # I due to parallel axis theorem
 
             self.Iy += norm(np.cross(np.array([0,1,0]),r))**2 * prop_mass
-            self.Iy += 1/12 * norm(np.cross(np.array([0,1,0]), pos))**2 * beam_density*norm(pos) 
+            self.Iy += 1/12 * norm(np.cross(np.array([0,1,0]), pos))**2 * beam_density*pos[1]
             self.Iy += beam_density*norm(pos) * norm(np.cross(np.array([0,1,0]), (pos/2 - self.cg)))**2
 
             self.Iz += norm(np.cross(np.array([0,0,1]),r))**2 * prop_mass
