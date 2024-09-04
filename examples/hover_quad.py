@@ -12,4 +12,4 @@ if __name__ == "__main__":
     sim = Hover(drone)
     
     # Compute most efficient hover
-    sim.compute_hover(verbose=True)
+    sim.compute_hover(verbose=True, tol=1e-10)

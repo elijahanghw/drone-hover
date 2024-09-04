@@ -68,17 +68,17 @@ class Hover:
         self.control_limits[:,1] *= self.w_hat_bounds[1]
         
         
-    def compute_hover(self, verbose=False):
+    def compute_hover(self, verbose=False, tol=1e-5):
         """Calls the static function to check if drone is able to achieve static hover.
            If static hover fails, call spinning function.
         """      
         self.hover_status = None  
-        self.static(verbose)
+        self.static(verbose, tol)
         if self.static_success == False:
-            self.spinning(verbose)
+            self.spinning(verbose, tol)
         
             
-    def static(self, verbose):
+    def static(self, verbose, tol):
         """Check if drone is able to achieve static hover.
            Prints hovering capability, optimal hovering inputs and input cost.
         """ 
@@ -106,7 +106,7 @@ class Hover:
         bnds = []
         for i in range(self.control_limits.shape[0]):
             bnds.append((self.w_hat_bounds[0]**2, self.w_hat_bounds[1]**2)) 
-        opt = {'maxiter':1000, 'ftol':1e-5}
+        opt = {'maxiter':1000, 'ftol':tol}
         
         with warnings.catch_warnings():
             warnings.filterwarnings("ignore", message="Values in x were outside bounds")
@@ -147,7 +147,7 @@ class Hover:
                 print("Drone cannot achieve static hover")
 
     
-    def spinning(self, verbose):
+    def spinning(self, verbose, tol):
         """Check if drone is able to achieve spinning hover.
            Prints hovering capability, optimal hovering inputs and input cost.
         """        
