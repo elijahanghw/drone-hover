@@ -3,6 +3,12 @@
 Compute the hovering capabilities of drones with arbitrary configurations.
 
 **Updates**:
+[24 September 2024]
+1. `Custombody` class is now able to compute mass, inertia and C.G. location given propeller locations. To enable this, simply leave out `mass, cg, Ix, Iy, Iz, Ixy, Ixz, Iyz` when calling the class.
+2. Automatic computation can be overwritten by defining the mass, inertia and C.G. properties when calling the class.
+3. Automatic computation override only available on `Custombody`. Standard bodies does not have this feature yet.
+4. See the section on Defining drone bodies for more details.
+
 
 [28 May 2024]
 1. Packaged library - dronehover
@@ -21,9 +27,7 @@ Run example `python3 examples/hover_quad.py` to test.
 ## Defining drone bodies
 The drone has a body-fixed coordinate system which follows the right-handed convention ($x$ axis pointing to the front, $y$ axis pointing to the right, and $z$ axis pointing down). Propeller positions and directions are defined using this coordinate system. The C.G. of the drone may not necessarily coincide with the origin of the coordinate system, and needs to be defined.
 
-Drones are defined using classes, and require inertia and propeller properties as class variables.
-
-Inertia properties are the mass and moment of inertia of the drone, and are defined using variables. C.G. location is also defined as a list.
+Drones are defined using classes, and require propeller properties as class variables.
 
 Propeller properties are defined using dictionaries, and require the following keywords:
 
@@ -44,10 +48,16 @@ There are 2 ways to define the drone body.
 1. Creating a class that follows the format as seen in `drone_hover.standard_bodies`.
 2. Call the `Custombody` object
 
+When using `Custombody`, inertia properties are optional parameters. Inertia properties of the drones are computed automatically. If inertia properties are defined, the automatic computation will be overridden. 
+
+Inertia properties are the mass and moment of inertia of the drone, and are defined using variables. C.G. location is also defined as a list.
+
 Example:
 
     from drone_hover.custom_bodies import Custombody
-    drone = Custombody(props)
+    drone = Custombody(props)   # Automatic computation of inertia properties
+
+    drone = Custombody(props, mass, cg, Ix, Iy, Iz, Ixy, Ixz, Iyz)      # User defined inertia properties
 
 ## Propeller Library
 

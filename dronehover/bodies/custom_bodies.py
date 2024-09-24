@@ -3,7 +3,7 @@ from numpy.linalg import norm as norm
 from dronehover import prop_lib
 
 class Custombody:
-    def __init__(self, props):
+    def __init__(self, props, mass=None, cg=None, Ix=None, Iy=None, Iz=None, Ixy=None, Ixz=None, Iyz=None):
         """Class for custom drone bodies
 
         Args:
@@ -20,13 +20,24 @@ class Custombody:
         self.props = props
 
         self.get_props()
-        self.get_inertia()
+
+        if mass == None:
+            self.get_inertia()
+        else:
+            self.mass = mass
+            self.cg = cg
+            self.Ix = Ix
+            self.Iy = Iy
+            self.Iz = Iz
+            self.Ixy = Ixy
+            self.Ixz = Ixz
+            self.Iyz = Iyz
 
     def get_inertia(self):
         controller_mass = 0.250 # based on 4S, 2200 mAh lipo
         beam_density = 1500*0.005*0.01 # kg/m, carbon fiber plates, 5mm thickness, 10mm width
 
-        self.mass = controller_mass # + prop_mass*len(self.props)
+        self.mass = controller_mass
 
         for prop in self.props:
             size = prop["propsize"]
@@ -45,6 +56,8 @@ class Custombody:
         self.Iy = norm(np.cross(np.array([0,1,0]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.105**2 + 0.035**2)
         self.Iz = norm(np.cross(np.array([0,0,1]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.105**2 + 0.036**2)
         self.Ixy = 0
+        self.Ixz = 0
+        self.Iyz = 0
 
         for prop in self.props:
             size = prop["propsize"]

@@ -12,5 +12,3 @@ if __name__ == "__main__":
     
     # Compute most efficient hover
     sim.compute_hover(verbose=True)
-    
-    print(sim.hover_status)

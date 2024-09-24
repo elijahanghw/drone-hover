@@ -7,16 +7,7 @@ from dronehover import prop_lib
 # Standard x config quadcopter
 class Quadcopter:
     def __init__(self, length):        
-        # Propeller parameters
-        # loc: Propeller location (x, y, z)
-        # dir: Unit vector of propeller direction + rotation direction (x,y,z,r=1(ccw) or -1(cw))
-        # propsize: Propeller size in inch: propeller force and torque constants extracted from library
-        
-        # self.props = [{"loc":[length*cos(1/4*pi), length*sin(1/4*pi), 0], "dir": [0, 0, -1, "ccw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
-        #               {"loc":[length*cos(3/4*pi), length*sin(3/4*pi), 0], "dir": [0, 0, -1, "cw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
-        #               {"loc":[length*cos(5/4*pi), length*sin(5/4*pi), 0], "dir": [0, 0, -1, "ccw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927},
-        #               {"loc":[length*cos(7/4*pi), length*sin(7/4*pi), 0], "dir": [0, 0, -1, "cw"], "constants": [7.24e-07, 8.20e-09], "wmax": 3927}]
-        
+
         self.props = [{"loc":[length*cos(1/4*pi), length*sin(1/4*pi), 0], "dir": [0, 0, -1, "ccw"], "propsize": 5},
                       {"loc":[length*cos(3/4*pi), length*sin(3/4*pi), 0], "dir": [0, 0, -1, "cw"], "propsize": 5},
                       {"loc":[length*cos(5/4*pi), length*sin(5/4*pi), 0], "dir": [0, 0, -1, "ccw"], "propsize": 5},
@@ -29,7 +20,7 @@ class Quadcopter:
         controller_mass = 0.250 # based on 4S, 2200 mAh lipo
         beam_density = 1500*0.005*0.01 # kg/m, carbon fiber plates, 5mm thickness, 10mm width
 
-        self.mass = controller_mass # + prop_mass*len(self.props)
+        self.mass = controller_mass
 
         
         for prop in self.props:
@@ -82,10 +73,6 @@ class Quadcopter:
 # Standard tricopter without tilt rotor
 class Tricopter:
     def __init__(self, length):
-        # Propeller parameters
-        # loc: Propeller location (x, y, z)
-        # dir: Unit vector of propeller direction + rotation direction (x,y,z,r=1(ccw) or -1(cw))
-        # propsize: Propeller size in inch: propeller force and torque constants extracted from library
         
         self.props = [{"loc":[length, 0, 0], "dir": [0, 0, -1, "ccw"], "propsize": 4},
                       {"loc":[length*cos(2/3*pi), length*sin(2/3*pi), 0], "dir": [0, 0, -1, "cw"], "propsize": 4},
@@ -98,7 +85,7 @@ class Tricopter:
         controller_mass = 0.250 # based on 4S, 2200 mAh lipo
         beam_density = 1500*0.005*0.01 # kg/m, carbon fiber plates, 5mm thickness, 10mm width
 
-        self.mass = controller_mass # + prop_mass*len(self.props)
+        self.mass = controller_mass
 
         for prop in self.props:
             size = prop["propsize"]
@@ -150,11 +137,6 @@ class Tricopter:
 class Hexacopter:
     def __init__(self, length):
         
-        # Propeller parameters
-        # loc: Propeller location (x, y, z)
-        # dir: Unit vector of propeller direction + rotation direction (x,y,z,r=1(ccw) or -1(cw))
-        # propsize: Propeller size in inch: propeller force and torque constants extracted from library
-        
         self.props = [{"loc":[length, 0, 0], "dir": [0, 0, -1, "ccw"], "propsize": 4},
                       {"loc":[length*cos(1/3*pi), length*sin(1/3*pi), 0], "dir": [0, 0, -1, "cw"], "propsize": 4},
                       {"loc":[length*cos(2/3*pi), length*sin(2/3*pi), 0], "dir": [0, 0, -1, "ccw"], "propsize": 4},
@@ -169,7 +151,7 @@ class Hexacopter:
         controller_mass = 0.250 # based on 4S, 2200 mAh lipo
         beam_density = 1500*0.005*0.01 # kg/m, carbon fiber plates, 5mm thickness, 10mm width
 
-        self.mass = controller_mass # + prop_mass*len(self.props)
+        self.mass = controller_mass
 
         for prop in self.props:
             size = prop["propsize"]
@@ -219,11 +201,6 @@ class Hexacopter:
 # Standard Octacopter
 class Octacopter:
     def __init__(self, length):
-  
-        # Propeller parameters
-        # loc: Propeller location (x, y, z)
-        # dir: Unit vector of propeller direction + rotation direction (x,y,z,r=1(ccw) or -1(cw))
-        # propsize: Propeller size in inch: propeller force and torque constants extracted from library
         
         self.props = [{"loc":[length, 0, 0], "dir": [0, 0, -1, "ccw"], "propsize": 4},
                       {"loc":[length*cos(1/4*pi), length*sin(1/4*pi), 0], "dir": [0, 0, -1, "cw"], "propsize": 4},
@@ -241,7 +218,7 @@ class Octacopter:
         controller_mass = 0.250 # based on 4S, 2200 mAh lipo
         beam_density = 1500*0.005*0.01 # kg/m, carbon fiber plates, 5mm thickness, 10mm width
 
-        self.mass = controller_mass # + prop_mass*len(self.props)
+        self.mass = controller_mass
 
         for prop in self.props:
             size = prop["propsize"]
