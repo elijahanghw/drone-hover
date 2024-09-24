@@ -3,6 +3,7 @@
 Compute the hovering capabilities of drones with arbitrary configurations.
 
 **Updates**:
+
 [24 September 2024]
 1. `Custombody` class is now able to compute mass, inertia and C.G. location given propeller locations. To enable this, simply leave out `mass, cg, Ix, Iy, Iz, Ixy, Ixz, Iyz` when calling the class.
 2. Automatic computation can be overwritten by defining the mass, inertia and C.G. properties when calling the class.
