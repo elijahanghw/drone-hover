@@ -5,9 +5,9 @@ Compute the hovering capabilities of drones with arbitrary configurations.
 **Updates**:
 
 [24 September 2024]
-1. `Custombody` class is now able to compute mass, inertia and C.G. location given propeller locations. To enable this, simply leave out `mass, cg, Ix, Iy, Iz, Ixy, Ixz, Iyz` when calling the class.
-2. Automatic computation can be overwritten by defining the mass, inertia and C.G. properties when calling the class.
-3. Automatic computation override only available on `Custombody`. Standard bodies does not have this feature yet.
+1. `Custombody` and standard body classes is now able to compute mass, inertia and C.G. location given propeller locations. To enable this, simply leave out `mass, cg, Ix, Iy, Iz, Ixy, Ixz, Iyz` when calling the class.
+2. Automatic computation can be overridden by defining the mass, inertia and C.G. properties when calling the class.
+3. Automatic computation override only available on `Custombody`. Standard bodies does not have this override feature yet.
 4. See the section on Defining drone bodies for more details.
 
 
@@ -26,7 +26,7 @@ Run example `python3 examples/hover_quad.py` to test.
 
 
 ## Defining drone bodies
-The drone has a body-fixed coordinate system which follows the right-handed convention ($x$ axis pointing to the front, $y$ axis pointing to the right, and $z$ axis pointing down). Propeller positions and directions are defined using this coordinate system. The C.G. of the drone may not necessarily coincide with the origin of the coordinate system, and needs to be defined.
+The drone has a body-fixed coordinate system which follows the North-East-Down (NED) convention ($x$ axis pointing to the front, $y$ axis pointing to the right, and $z$ axis pointing down). Propeller positions and directions are defined using this coordinate system. The C.G. of the drone may not necessarily coincide with the origin of the coordinate system, and needs to be defined/computed.
 
 Drones are defined using classes, and require propeller properties as class variables.
 
@@ -40,10 +40,10 @@ Propeller properties are defined using dictionaries, and require the following k
 
 Example: 
 
-    self.props = [{"loc":[length*cos(1/4*pi), length*sin(1/4*pi), 0], "dir": [0, 0, -1, "ccw"], "propsize": 4},
-                      {"loc":[length*cos(3/4*pi), length*sin(3/4*pi), 0], "dir": [0, 0, -1, "cw"], "propsize": 4},
-                      {"loc":[length*cos(5/4*pi), length*sin(5/4*pi), 0], "dir": [0, 0, -1, "ccw"], "propsize": 4},
-                      {"loc":[length*cos(7/4*pi), length*sin(7/4*pi), 0], "dir": [0, 0, -1, "cw"], "propsize": 4}]
+    props = [{"loc":[length*cos(1/4*pi), length*sin(1/4*pi), 0], "dir": [0, 0, -1, "ccw"], "propsize": 4},
+             {"loc":[length*cos(3/4*pi), length*sin(3/4*pi), 0], "dir": [0, 0, -1, "cw"], "propsize": 4},
+             {"loc":[length*cos(5/4*pi), length*sin(5/4*pi), 0], "dir": [0, 0, -1, "ccw"], "propsize": 4},
+             {"loc":[length*cos(7/4*pi), length*sin(7/4*pi), 0], "dir": [0, 0, -1, "cw"], "propsize": 4}]
 
 There are 2 ways to define the drone body.
 1. Creating a class that follows the format as seen in `drone_hover.standard_bodies`.
@@ -56,6 +56,7 @@ Inertia properties are the mass and moment of inertia of the drone, and are defi
 Example:
 
     from drone_hover.custom_bodies import Custombody
+
     drone = Custombody(props)   # Automatic computation of inertia properties
 
     drone = Custombody(props, mass, cg, Ix, Iy, Iz, Ixy, Ixz, Iyz)      # User defined inertia properties
