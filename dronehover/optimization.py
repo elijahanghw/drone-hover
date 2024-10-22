@@ -41,7 +41,7 @@ class Hover:
             prop_dir = np.array(prop["dir"][:3]) # Direction of thrust vector
             prop_dir = (prop_dir/norm(prop_dir))[np.newaxis,:]
             
-            prop_rot = 1 if prop["dir"][-1] == "ccw" else -1    # Direction of propeller rotation
+            prop_rot = -1 if prop["dir"][-1] == "ccw" else 1    # Direction of propeller rotation
             
             self.Bf[:,idx] = k_f * w_max**2 * prop_dir[0,:].T
             
