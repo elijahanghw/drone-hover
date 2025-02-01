@@ -34,7 +34,7 @@ class Custombody:
             self.Iyz = Iyz
 
     def get_inertia(self):
-        controller_mass = 0.250 # based on 4S, 2200 mAh lipo
+        controller_mass = 0.300 # based on 4S, 2200 mAh lipo
         beam_density = 1500*0.005*0.01 # kg/m, carbon fiber plates, 5mm thickness, 10mm width
 
         self.mass = controller_mass
