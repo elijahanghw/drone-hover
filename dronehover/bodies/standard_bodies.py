@@ -107,6 +107,8 @@ class Tricopter:
         self.Iz = norm(np.cross(np.array([0,0,1]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.105**2 + 0.036**2)
 
         self.Ixy = 0
+        self.Ixz = 0
+        self.Iyz = 0
 
         for prop in self.props:
             size = prop["propsize"]
@@ -173,6 +175,8 @@ class Hexacopter:
         self.Iz = norm(np.cross(np.array([0,0,1]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.105**2 + 0.036**2)
 
         self.Ixy = 0
+        self.Ixz = 0
+        self.Iyz = 0
 
         for prop in self.props:
             size = prop["propsize"]
@@ -240,6 +244,8 @@ class Octacopter:
         self.Iz = norm(np.cross(np.array([0,0,1]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.105**2 + 0.036**2)
 
         self.Ixy = 0
+        self.Ixz = 0
+        self.Iyz = 0
 
         for prop in self.props:
             size = prop["propsize"]
