@@ -36,7 +36,7 @@ class Custombody:
     def get_inertia(self):
         controller_mass = 0.0136 # speedybee f405 aio
         battery_mass = 0.043 # 3s 450mah lipo
-        beam_density = 1500*0.005*0.01 # kg/m, carbon fiber plates, 5mm thickness, 10mm width
+        beam_density = 0.034 # kg/m, carbon fiber plates, 5mm thickness, 10mm width
 
         self.mass = controller_mass + battery_mass
 
