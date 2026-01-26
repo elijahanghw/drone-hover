@@ -34,10 +34,11 @@ class Custombody:
             self.Iyz = Iyz
 
     def get_inertia(self):
-        controller_mass = 0.300 # based on 4S, 2200 mAh lipo
+        controller_mass = 0.0136 # speedybee f405 aio
+        battery_mass = 0.043 # 3s 450mah lipo
         beam_density = 1500*0.005*0.01 # kg/m, carbon fiber plates, 5mm thickness, 10mm width
 
-        self.mass = controller_mass
+        self.mass = controller_mass + battery_mass
 
         for prop in self.props:
             size = prop["propsize"]
@@ -52,9 +53,14 @@ class Custombody:
             self.cg += prop_mass/self.mass * np.array(prop["loc"])
             self.cg += beam_mass/self.mass * np.array(prop["loc"]) * 0.5
 
-        self.Ix = norm(np.cross(np.array([1,0,0]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.036**2 + 0.035**2)
-        self.Iy = norm(np.cross(np.array([0,1,0]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.105**2 + 0.035**2)
-        self.Iz = norm(np.cross(np.array([0,0,1]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.105**2 + 0.036**2)
+        self.Ix = norm(np.cross(np.array([1,0,0]),self.cg))**2 * battery_mass + 1/12 * battery_mass * (0.016**2 + 0.018**2)
+        self.Iy = norm(np.cross(np.array([0,1,0]),self.cg))**2 * battery_mass + 1/12 * battery_mass * (0.060**2 + 0.018**2)
+        self.Iz = norm(np.cross(np.array([0,0,1]),self.cg))**2 * battery_mass + 1/12 * battery_mass * (0.060**2 + 0.016**2)
+
+        self.Ix += norm(np.cross(np.array([1,0,0]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.008**2 + 0.033**2)
+        self.Iy += norm(np.cross(np.array([0,1,0]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.008**2 + 0.033**2)
+        self.Iz += norm(np.cross(np.array([0,0,1]),self.cg))**2 * controller_mass + 1/12 * controller_mass * (0.033**2 + 0.033**2)
+
         self.Ixy = 0
         self.Ixz = 0
         self.Iyz = 0
