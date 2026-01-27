@@ -1,7 +1,7 @@
 from . import *
 
 prop_lib = {
-            "prop2": {"constants": [8.12e-08, 8.18e-10], "wmax": 5000, "mass": 0.0046},
+            "prop2": {"constants": [8.12e-08, 6.40e-10], "wmax": 5000, "mass": 0.0046},
             # "prop4": {"constants": [7.24e-07, 8.20e-09], "wmax": 3927, "mass": 0.018}, 
             "prop5": {"constants": [1.08E-06, 1.22E-08], "wmax": 3142, "mass": 0.0335}, 
             # "prop6": {"constants": [2.21E-06, 2.74E-08], "wmax": 2618, "mass": 0.0252}, 
