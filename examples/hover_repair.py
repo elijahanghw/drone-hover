@@ -19,17 +19,20 @@ def hover_repair(drone):
 
         repaired_props = []
 
-        for prop in rotated_props:
+        for prop in drone.props:
+            # Create a copy of the prop dictionary
+            new_prop = prop.copy()
+            
             new_pos = R2 @ np.array(prop["loc"])
             new_dir = R2 @ np.array(prop["dir"][0:3])
 
             new_pos = new_pos.tolist()
             new_dir = new_dir.tolist()
 
-            prop["loc"] = new_pos
-            prop["dir"][0:3] = new_dir
+            new_prop["loc"] = new_pos
+            new_prop["dir"] = new_dir + [prop["dir"][3]]  # Keep rotation direction (ccw/cw)
 
-            repaired_props.append(prop)
+            repaired_props.append(new_prop)
 
         repaired_drone = Custombody(repaired_props)         # Automatic inertia computation
 
@@ -54,16 +57,19 @@ if __name__ == "__main__":
     rotated_props = []
 
     for prop in props:
+        # Create a copy of the prop dictionary
+        new_prop = prop.copy()
+        
         new_pos = R1 @ np.array(prop["loc"])
         new_dir = R1 @ np.array(prop["dir"][0:3])
 
         new_pos = new_pos.tolist()
         new_dir = new_dir.tolist()
 
-        prop["loc"] = new_pos
-        prop["dir"][0:3] = new_dir
+        new_prop["loc"] = new_pos
+        new_prop["dir"] = new_dir + [prop["dir"][3]]  # Keep rotation direction (ccw/cw)
 
-        rotated_props.append(prop)
+        rotated_props.append(new_prop)
 
     # Test rotated drone
     rotated_drone = Custombody(rotated_props)
@@ -76,6 +82,8 @@ if __name__ == "__main__":
     # Test repaired drone
     sim = Hover(repaired_drone)
     sim.compute_hover(verbose=True)
+
+    print(repaired_props)
 
 
     
