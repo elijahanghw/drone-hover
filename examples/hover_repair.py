@@ -1,6 +1,8 @@
 import numpy as np
 from numpy import sin, cos, pi
 from numpy.linalg import norm
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
 from dronehover.bodies.custom_bodies import Custombody
 from dronehover.optimization import Hover
@@ -44,6 +46,69 @@ def hover_repair(drone):
         return drone, drone.props
 
 
+def plot_props(props_list, titles, colors=None):
+    """
+    Plot multiple propeller configurations in 3D.
+    
+    Args:
+        props_list: List of propeller configurations to plot
+        titles: List of titles for each subplot
+        colors: Optional list of colors for each configuration
+    """
+    if colors is None:
+        colors = ['blue', 'red', 'green', 'purple']
+    
+    n_configs = len(props_list)
+    fig = plt.figure(figsize=(5*n_configs, 5))
+    
+    for idx, (props, title) in enumerate(zip(props_list, titles)):
+        ax = fig.add_subplot(1, n_configs, idx+1, projection='3d')
+        
+        # Extract positions and directions
+        for i, prop in enumerate(props):
+            loc = np.array(prop["loc"])
+            direction = np.array(prop["dir"][0:3])
+            
+            # Plot propeller position
+            ax.scatter(loc[0], loc[1], loc[2], c=colors[idx], s=100, marker='o')
+            
+            # Plot thrust direction as arrow
+            arrow_scale = 0.03
+            ax.quiver(loc[0], loc[1], loc[2], 
+                     direction[0], direction[1], direction[2],
+                     length=arrow_scale, color=colors[idx], arrow_length_ratio=0.3, linewidth=2)
+            
+            # Label propeller
+            ax.text(loc[0], loc[1], loc[2], f'  P{i+1}', fontsize=8)
+            
+            # Draw line from motor to origin (0,0,0)
+            ax.plot([0, loc[0]], [0, loc[1]], [0, loc[2]], 
+                   'k-', linewidth=2, alpha=0.5)
+        
+        # Set labels and title
+        ax.set_xlabel('X')
+        ax.set_ylabel('Y')
+        ax.set_zlabel('Z')
+        ax.set_title(title)
+        
+        # Set equal aspect ratio
+        max_range = 0.08
+        ax.set_xlim([-max_range, max_range])
+        ax.set_ylim([-max_range, max_range])
+        ax.set_zlim([-max_range, max_range])
+        
+        # Invert Z axis
+        ax.invert_zaxis()
+        
+        # Add grid
+        ax.grid(True)
+    
+    plt.tight_layout()
+    # plt.savefig("propellers.png")
+    plt.show()
+
+
+
 if __name__ == "__main__":
     # Standard Quad
     props = [{"loc":[0.060*cos(1/4*pi), 0.060*sin(1/4*pi), 0], "dir": [0, 0, -1, "ccw"], "propsize": 2},
@@ -84,6 +149,12 @@ if __name__ == "__main__":
     sim.compute_hover(verbose=True)
 
     print(repaired_props)
+
+    # Plot all configurations
+    plot_props([rotated_props, repaired_props], 
+               ['Rotated Quad', 'Repaired Quad'],
+               colors=['blue', 'red'])
+
 
 
     
