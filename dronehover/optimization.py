@@ -138,6 +138,7 @@ class Hover:
                 print(f'Moments rank: {self.rank_m}')
                 print(f'Moments gram eig: {self.eig_m}')
                 print(f"Input cost: {self.input_cost:.5f}")
+                print("-----------------------------------------")
 
         else:
             if verbose:
@@ -210,6 +211,7 @@ class Hover:
                 print(f'Moments rank: {self.rank_m}')
                 print(f'Moments gram eig: {self.eig_m}')
                 print(f"Input cost: {self.input_cost}")
+                print("-------------------------------------------")
             
         else:
             self.hover_status = "N"
@@ -226,6 +228,7 @@ class Hover:
                 print(f'Resultant specific force: {norm(f):.2f}')
                 print(f'Resultant specific torque: {norm(self.tau):.2f}')
                 print(f"Force-torque cross product norm: {norm(np.cross(f,self.tau)):.5f}")
+                print("--------------------------------------")
             
             
     def drone_checker(self):
